@@ -13,7 +13,6 @@
     "url": "https://github.com/raptorjs/raptor-optimizer-less.git"
   },
   "scripts": {
-    "test": "node_modules/.bin/mocha --ui bdd --reporter spec  ./test"
   },
   "author": "Patrick Steele-Idem <pnidem@gmail.com>",
   "contributors": [
