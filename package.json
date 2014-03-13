@@ -10,7 +10,7 @@
     ],
     "repository": {
         "type": "git",
-        "url": "https://github.com/raptorjs/raptor-optimizer-less.git"
+        "url": "https://github.com/raptorjs3/raptor-optimizer-less.git"
     },
     "scripts": {},
     "author": "Patrick Steele-Idem <pnidem@gmail.com>",
