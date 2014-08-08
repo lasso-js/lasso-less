@@ -27,7 +27,7 @@
     },
     "license": "Apache License v2.0",
     "bin": {},
-    "main": "lib/raptor-optimizer-less.js",
+    "main": "lib/raptor-optimizer-less-plugin.js",
     "publishConfig": {
         "registry": "https://registry.npmjs.org/"
     },
