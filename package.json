@@ -1,36 +1,36 @@
 {
-    "name": "raptor-optimizer-less",
-    "description": "RaptorJS Optimizer plugin to support compilation of less dependencies",
-    "keywords": [
-        "raptor-optimizer",
-        "raptor-optimizer-plugin",
-        "less"
-    ],
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/raptorjs3/raptor-optimizer-less.git"
-    },
-    "scripts": {},
-    "author": "Patrick Steele-Idem <pnidem@gmail.com>",
-    "contributors": [
-        "Patrick Steele-Idem <pnidem@gmail.com>",
-        "Phillip Gates-Idem <phillip.idem@gmail.com>"
-    ],
-    "maintainers": "Patrick Steele-Idem <pnidem@gmail.com>",
-    "dependencies": {
-        "raptor-logging": "^0.2.3-beta"
-    },
-    "devDependencies": {
-        "mocha": "~1.15.1",
-        "chai": "~1.8.1",
-        "less": "~1.7.0"
-    },
-    "license": "Apache License v2.0",
-    "bin": {},
-    "main": "lib/raptor-optimizer-less-plugin.js",
-    "publishConfig": {
-        "registry": "https://registry.npmjs.org/"
-    },
-    "ebay": {},
-    "version": "0.1.11-beta"
+  "name": "raptor-optimizer-less",
+  "description": "RaptorJS Optimizer plugin to support compilation of less dependencies",
+  "keywords": [
+    "raptor-optimizer",
+    "raptor-optimizer-plugin",
+    "less"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/raptorjs3/raptor-optimizer-less.git"
+  },
+  "scripts": {},
+  "author": "Patrick Steele-Idem <pnidem@gmail.com>",
+  "contributors": [
+    "Patrick Steele-Idem <pnidem@gmail.com>",
+    "Phillip Gates-Idem <phillip.idem@gmail.com>"
+  ],
+  "maintainers": "Patrick Steele-Idem <pnidem@gmail.com>",
+  "dependencies": {
+    "less": "^1.7.4",
+    "raptor-logging": "^0.2.3-beta"
+  },
+  "devDependencies": {
+    "mocha": "~1.15.1",
+    "chai": "~1.8.1"
+  },
+  "license": "Apache License v2.0",
+  "bin": {},
+  "main": "lib/raptor-optimizer-less-plugin.js",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "ebay": {},
+  "version": "0.1.11-beta"
 }
