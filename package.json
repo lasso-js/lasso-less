@@ -19,7 +19,7 @@
   "maintainers": "Patrick Steele-Idem <pnidem@gmail.com>",
   "dependencies": {
     "less": "^1.7.4",
-    "raptor-logging": "^0.2.3-beta"
+    "raptor-logging": "^1.0.0-beta"
   },
   "devDependencies": {
     "mocha": "~1.15.1",
