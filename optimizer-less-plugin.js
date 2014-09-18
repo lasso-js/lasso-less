@@ -22,16 +22,17 @@ module.exports = function(optimizer, config) {
                 'paths': 'string'
             },
 
-            init: function() {
+            init: function(optimizerContext, callback) {
                 if (!this.path) {
-                    throw new Error('"path" is required for a less dependency');
+                    return callback(new Error('"path" is required for a less dependency'));
                 }
 
                 if (!LessParser) {
-                    throw new Error('Unable to handle Less dependency for path "' + this.path + '". The "less" module was not found. This module should be installed as a top-level application module.') ;
+                    return callback(new Error('Unable to handle Less dependency for path "' + this.path + '". The "less" module was not found. This module should be installed as a top-level application module.'));
                 }
 
                 this.path = this.resolvePath(this.path);
+                callback();
             },
 
             read: function(optimizerContext, callback) {
@@ -78,7 +79,7 @@ module.exports = function(optimizer, config) {
                 return this.path;
             },
 
-            lastModified: function(optimizerContext, callback) {
+            getLastModified: function(optimizerContext, callback) {
                 return callback(null, -1);
             }
         });
