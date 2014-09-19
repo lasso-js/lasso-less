@@ -1,14 +1,14 @@
 {
-    "name": "raptor-optimizer-less",
+    "name": "optimizer-less",
     "description": "RaptorJS Optimizer plugin to support compilation of less dependencies",
     "keywords": [
-        "raptor-optimizer",
-        "raptor-optimizer-plugin",
+        "optimizer",
+        "optimizer-plugin",
         "less"
     ],
     "repository": {
         "type": "git",
-        "url": "https://github.com/raptorjs3/raptor-optimizer-less.git"
+        "url": "https://github.com/raptorjs3/optimizer-less.git"
     },
     "scripts": {
         "test": "node_modules/.bin/mocha --ui bdd --reporter spec ./test && node_modules/.bin/jshint *.js"
@@ -27,7 +27,7 @@
         "chai": "^1.9.1",
         "jshint": "^2.5.5",
         "mocha": "^1.21.4",
-        "raptor-optimizer": "^1.0.11-beta"
+        "optimizer": "^1.0.11-beta"
     },
     "license": "Apache License v2.0",
     "bin": {},
@@ -35,6 +35,5 @@
     "publishConfig": {
         "registry": "https://registry.npmjs.org/"
     },
-    "ebay": {},
-    "version": "1.0.2-beta"
+    "version": "1.1.0"
 }
