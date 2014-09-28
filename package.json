@@ -1,39 +1,39 @@
 {
-  "name": "optimizer-less",
-  "description": "RaptorJS Optimizer plugin to support compilation of less dependencies",
-  "keywords": [
-    "optimizer",
-    "optimizer-plugin",
-    "less"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/raptorjs3/optimizer-less.git"
-  },
-  "scripts": {
-    "test": "node_modules/.bin/mocha --ui bdd --reporter spec ./test && node_modules/.bin/jshint *.js"
-  },
-  "author": "Patrick Steele-Idem <pnidem@gmail.com>",
-  "contributors": [
-    "Patrick Steele-Idem <pnidem@gmail.com>",
-    "Phillip Gates-Idem <phillip.idem@gmail.com>"
-  ],
-  "maintainers": "Patrick Steele-Idem <pnidem@gmail.com>",
-  "dependencies": {
-    "less": "^1.7.4",
-    "raptor-logging": "^1.0.1"
-  },
-  "devDependencies": {
-    "chai": "^1.9.1",
-    "jshint": "^2.5.5",
-    "mocha": "^1.21.4",
-    "optimizer": "^1.0.11"
-  },
-  "license": "Apache License v2.0",
-  "bin": {},
-  "main": "./optimizer-less-plugin.js",
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
-  },
-  "version": "1.1.1"
+    "name": "optimizer-less",
+    "description": "RaptorJS Optimizer plugin to support compilation of less dependencies",
+    "keywords": [
+        "optimizer",
+        "optimizer-plugin",
+        "less"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/raptorjs3/optimizer-less.git"
+    },
+    "scripts": {
+        "test": "node_modules/.bin/mocha --ui bdd --reporter spec ./test && node_modules/.bin/jshint *.js"
+    },
+    "author": "Patrick Steele-Idem <pnidem@gmail.com>",
+    "contributors": [
+        "Patrick Steele-Idem <pnidem@gmail.com>",
+        "Phillip Gates-Idem <phillip.idem@gmail.com>"
+    ],
+    "maintainers": "Patrick Steele-Idem <pnidem@gmail.com>",
+    "dependencies": {
+        "less": "^1.7.4",
+        "raptor-logging": "^1.0.1"
+    },
+    "devDependencies": {
+        "chai": "^1.9.1",
+        "jshint": "^2.5.5",
+        "mocha": "^1.21.4",
+        "optimizer": "^1.0.11"
+    },
+    "license": "Apache License v2.0",
+    "bin": {},
+    "main": "./optimizer-less-plugin.js",
+    "publishConfig": {
+        "registry": "https://registry.npmjs.org/"
+    },
+    "version": "1.1.2"
 }
