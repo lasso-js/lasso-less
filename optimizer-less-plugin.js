@@ -1,11 +1,12 @@
-var LessParser = null;
 var lessPath = null;
 try {
     lessPath = require.resolve('less');
 } catch(e) {}
 
+var less;
+
 if (lessPath) {
-    LessParser = require(lessPath).Parser;
+    less = require(lessPath);
 }
 
 var fs = require('fs');
@@ -27,7 +28,7 @@ module.exports = function(optimizer, config) {
                     return callback(new Error('"path" is required for a less dependency'));
                 }
 
-                if (!LessParser) {
+                if (!less) {
                     return callback(new Error('Unable to handle Less dependency for path "' + this.path + '". The "less" module was not found. This module should be installed as a top-level application module.'));
                 }
 
@@ -47,14 +48,10 @@ module.exports = function(optimizer, config) {
                     if (require.main && require.main.paths) {
                         paths = paths.concat(require.main.paths);
                     }
-                    var parser = new LessParser({
-                        filename: path,
-                        paths: paths
-                    });
+
 
                     logger.info('Parsing LESS file at path: ' + path);
-
-                    parser.parse(lessCode, function(err, tree) {
+                    less.render(lessCode, config, function(err, output) {
                         if (err) {
                             logger.error('Error building LESS file ' + path, err);
 
@@ -70,7 +67,9 @@ module.exports = function(optimizer, config) {
                         }
 
                         logger.info('Finished parsing LESS file at path: ' + path);
-                        callback(null, tree.toCSS(config));
+                        // LESS v2+ returns an object with "css" property.
+                        // Old versions returned just the CSS.
+                        callback(null, output.css || output);
                     });
                 });
             },
