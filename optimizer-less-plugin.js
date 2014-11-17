@@ -50,23 +50,30 @@ module.exports = function(optimizer, config) {
                     }
 
 
-                    logger.info('Parsing LESS file at path: ' + path);
-                    less.render(lessCode, config, function(err, output) {
-                        if (err) {
-                            logger.error('Error building LESS file ' + path, err);
+                    if (config.paths) {
+                        paths = config.paths.concat(paths);
+                    }
 
-                            if (err.hasOwnProperty('line')) {
-                                callback(
-                                    new Error('Error compiling LESS file (' +
-                                        err.filename + ':' + err.line + ':' + err.column + ') - ' +
-                                        err.message));
-                            } else {
-                                callback(err);
+                    var parseConfig = {
+                        filename: path,
+                        paths: paths
+                    };
+
+                    logger.info('Parsing Less file at path: ' + path);
+                    less.render(lessCode, parseConfig, function(err, output) {
+                        if (err) {
+                            if (err.line != null) {
+                                err = new Error('Error compiling Less file (' +
+                                    err.filename + ':' + err.line + ':' + err.column + ') - ' +
+                                    err.message);
                             }
+
+                            logger.error(err);
+                            callback(err);
                             return;
                         }
 
-                        logger.info('Finished parsing LESS file at path: ' + path);
+                        logger.info('Finished parsing Less file at path: ' + path);
                         // LESS v2+ returns an object with "css" property.
                         // Old versions returned just the CSS.
                         callback(null, output.css || output);
