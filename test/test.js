@@ -50,7 +50,7 @@ describe('optimizer-less' , function() {
                 }
 
                 var output = fs.readFileSync(nodePath.join(__dirname, 'static/testPage.css'), 'utf8');
-                expect(output).to.equal('#header {\n  color: #5b83ad;\n}\n');
+                expect(output).to.equal("#header {\n  color: #5b83ad;\n}\nbody {\n  color: red;\n}\n");
                 done();
             });
     });
