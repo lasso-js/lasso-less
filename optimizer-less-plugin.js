@@ -76,7 +76,7 @@ module.exports = function(optimizer, config) {
                         logger.info('Finished parsing Less file at path: ' + path);
                         // LESS v2+ returns an object with "css" property.
                         // Old versions returned just the CSS.
-                        callback(null, output.css || output);
+                        callback(null, (output.css == null) ? output : output.css);
                     });
                 });
             },
