@@ -31,7 +31,8 @@
     "chai": "^1.9.1",
     "jshint": "^2.5.5",
     "mocha": "^1.21.4",
-    "optimizer": "^1.0.11"
+    "optimizer": "^1.0.11",
+    "slashui-mixins": "^1.0.2"
   },
   "license": "Apache License v2.0",
   "bin": {},

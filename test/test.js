@@ -55,6 +55,48 @@ describe('optimizer-less' , function() {
             });
     });
 
+
+    it('should render a node module less dependency', function(done) {
+
+        var pageOptimizer = optimizer.create({
+            fileWriter: {
+                fingerprintsEnabled: false,
+                outputDir: nodePath.join(__dirname, 'static')
+            },
+            bundlingEnabled: true,
+            plugins: [
+                {
+                    plugin: lessPlugin,
+                    config: {
+
+                    }
+                }
+            ]
+        });
+
+
+
+        pageOptimizer.optimizePage({
+                name: 'testPage',
+                dependencies: [{       
+                    path: nodePath.join(__dirname, 'fixtures/simple.less'), 
+                    imports: [
+                        "require: slashui-mixins/mixins.less"
+                    ]            
+                }]
+        },
+        function(err, optimizedPage) {
+            if (err) {
+                return done(err);
+            }
+
+            var output = fs.readFileSync(nodePath.join(__dirname, 'static/testPage.css'), 'utf8');
+            expect(output).to.equal("/* Helvetica Neue Bold Font Stack */\n#header {\n  color: #5b83ad;\n}\nbody {\n  color: red;\n}\n");
+            done();
+        });
+
+    });
+
     it('should handle errors', function(done) {
 
         var pageOptimizer = optimizer.create({
