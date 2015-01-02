@@ -1,13 +1,12 @@
 // native node modules
-var fs = require('fs'),
-    nodePath = require('path');
+var nodePath = require('path');
 
 
 // public modules from npm
 var logger = require('raptor-logging').logger(module),
     resolveFrom = require('resolve-from'),
     Q = require('q'),
-    FS = require("q-io/fs");
+    FS = require('q-io/fs');
 
 var lessPath = null,
     less;
@@ -50,7 +49,6 @@ var lessOptimizer = function(optimizer, config) {
         var REQUIRE_PATTERN = 'require:';
             
         var deferred = Q.defer(),
-            lessImport = null,
             promises = [],
             lessCode = '';
 
@@ -104,7 +102,7 @@ var lessOptimizer = function(optimizer, config) {
                 })
                 .fail(function(error){
                     deferred.reject(error);
-                })
+                });
 
         }else{
             deferred.resolve(null);
@@ -130,8 +128,6 @@ var lessOptimizer = function(optimizer, config) {
         if (config.paths) {
             paths = config.paths.concat(paths);
         }
-
-        var depLessCode = '';
 
         var errorCallback = function(err){
             logger.error(err);
