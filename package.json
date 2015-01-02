@@ -19,7 +19,10 @@
     "Phillip Gates-Idem <phillip.idem@gmail.com>",
     "Mahdi Pedramrazi <pedramphp@gmail.com>"
   ],
-  "maintainers": "Patrick Steele-Idem <pnidem@gmail.com>",
+  "maintainers": [
+    "Patrick Steele-Idem <pnidem@gmail.com>",
+    "Mahdi Pedramrazi <pedramphp@gmail.com>"
+  ],
   "dependencies": {
     "less": "^2.0.0",
     "q": "^1.1.2",
