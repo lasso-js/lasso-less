@@ -24,9 +24,8 @@
     "Mahdi Pedramrazi <pedramphp@gmail.com>"
   ],
   "dependencies": {
+    "async": "^0.9.0",
     "less": "^2.0.0",
-    "q": "^1.1.2",
-    "q-io": "^1.11.6",
     "raptor-logging": "^1.0.1",
     "resolve-from": "^1.0.0"
   },
