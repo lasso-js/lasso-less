@@ -109,10 +109,8 @@ var lessOptimizer = function(optimizer, config) {
                         importPath = importPath.trim();
 
                         var requireMatches = requireRegExp.exec(importPath);
-                        var isRequire = false;
 
                         if (requireMatches){
-                            isRequire = true;
                             importPath = requireMatches[1].trim();
                             importPath = resolveFrom(_this.getParentManifestDir(), importPath);
                         } else {
