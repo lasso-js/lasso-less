@@ -20,7 +20,7 @@ describe('optimizer-less' , function() {
         done();
     });
 
-    it('should render a simple less dependency', function(done) {
+    it('should render a complex less dependency', function(done) {
 
         var pageOptimizer = optimizer.create({
                 fileWriter: {
@@ -41,7 +41,7 @@ describe('optimizer-less' , function() {
         pageOptimizer.optimizePage({
                 name: 'testPage',
                 dependencies: [
-                    nodePath.join(__dirname, 'fixtures/simple.less')
+                    nodePath.join(__dirname, 'fixtures/complex.less')
                 ]
             },
             function(err, optimizedPage) {
@@ -49,8 +49,10 @@ describe('optimizer-less' , function() {
                     return done(err);
                 }
 
-                var output = fs.readFileSync(nodePath.join(__dirname, 'static/testPage.css'), 'utf8');
-                expect(output).to.equal("#header {\n  color: #5b83ad;\n}\nbody {\n  color: red;\n}\n");
+                var actual = fs.readFileSync(nodePath.join(__dirname, 'static/testPage.css'), 'utf8');
+                var expected = fs.readFileSync(nodePath.join(__dirname, 'fixtures/complex.less.expected.css'), 'utf8');
+                fs.writeFileSync(nodePath.join(__dirname, 'fixtures/complex.less.actual.css'), actual, 'utf8');
+                expect(actual).to.equal(expected);
                 done();
             });
     });
@@ -59,41 +61,39 @@ describe('optimizer-less' , function() {
     it('should render a node module less dependency', function(done) {
 
         var pageOptimizer = optimizer.create({
-            fileWriter: {
-                fingerprintsEnabled: false,
-                outputDir: nodePath.join(__dirname, 'static')
-            },
-            bundlingEnabled: true,
-            plugins: [
-                {
-                    plugin: lessPlugin,
-                    config: {
+                fileWriter: {
+                    fingerprintsEnabled: false,
+                    outputDir: nodePath.join(__dirname, 'static')
+                },
+                bundlingEnabled: true,
+                plugins: [
+                    {
+                        plugin: lessPlugin,
+                        config: {
 
+                        }
                     }
-                }
-            ]
-        });
-
-
+                ]
+            });
 
         pageOptimizer.optimizePage({
                 name: 'testPage',
-                dependencies: [{       
-                    path: nodePath.join(__dirname, 'fixtures/simple.less'), 
-                    imports: [
-                        "require: slashui-mixins/mixins.less"
-                    ]            
-                }]
-        },
-        function(err, optimizedPage) {
-            if (err) {
-                return done(err);
-            }
+                dependencies: [
+                    "require: installed/style.less"
+                ],
+                from: nodePath.join(__dirname, 'fixtures')
+            },
+            function(err, optimizedPage) {
+                if (err) {
+                    return done(err);
+                }
 
-            var output = fs.readFileSync(nodePath.join(__dirname, 'static/testPage.css'), 'utf8');
-            expect(output).to.equal("/* Helvetica Neue Bold Font Stack */\n#header {\n  color: #5b83ad;\n}\nbody {\n  color: red;\n}\n");
-            done();
-        });
+                var actual = fs.readFileSync(nodePath.join(__dirname, 'static/testPage.css'), 'utf8');
+                fs.writeFileSync(nodePath.join(__dirname, 'fixtures/installed.less.actual.css'), actual, 'utf8');
+                var expected = fs.readFileSync(nodePath.join(__dirname, 'fixtures/installed.less.expected.css'), 'utf8');
+                expect(actual).to.equal(expected);
+                done();
+            });
 
     });
 

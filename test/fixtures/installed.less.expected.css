@@ -1,0 +1,16 @@
+/* BEGIN "test/fixtures/node_modules/installed/style.less" */
+/* @import "mixins.less"; */
+/* + BEGIN "test/fixtures/node_modules/installed/mixins.less" */
+.bordered {
+  border-top: dotted 1px purple;
+  border-bottom: solid 2px purple;
+}
+/* + END "test/fixtures/node_modules/installed/mixins.less" */
+/* @import "variables.less"; */
+/* + BEGIN "test/fixtures/node_modules/installed/variables.less" */
+/* + END "test/fixtures/node_modules/installed/variables.less" */
+.installed {
+  border-top: dotted 1px purple;
+  border-bottom: solid 2px purple;
+}
+/* END "test/fixtures/node_modules/installed/style.less" */

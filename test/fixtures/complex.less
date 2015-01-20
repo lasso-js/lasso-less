@@ -1,0 +1,18 @@
+@import "variables.less";
+@import "foo/foo.less";
+@import "require: installed/mixins.less";
+
+@headerColor: green;
+@borderColor: blue;
+
+#header {
+    color: @headerColor;
+}
+
+body {
+    color: @color;
+}
+
+.container {
+    .bordered;
+}

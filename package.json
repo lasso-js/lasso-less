@@ -11,7 +11,7 @@
     "url": "https://github.com/raptorjs/optimizer-less.git"
   },
   "scripts": {
-    "test": "node_modules/.bin/mocha --ui bdd --reporter spec ./test && node_modules/.bin/jshint *.js"
+    "test": "node_modules/.bin/mocha --ui bdd --reporter spec ./test && node_modules/.bin/jshint lib/**/*.js"
   },
   "author": "Patrick Steele-Idem <pnidem@gmail.com>",
   "contributors": [
@@ -26,7 +26,10 @@
   "dependencies": {
     "async": "^0.9.0",
     "less": "^2.0.0",
-    "raptor-logging": "^1.0.1",
+    "raptor-async": "^1.0.3",
+    "raptor-logging": "^1.0.5",
+    "raptor-modules": "^1.0.18",
+    "raptor-polyfill": "^1.0.2",
     "resolve-from": "^1.0.0"
   },
   "devDependencies": {
@@ -38,7 +41,7 @@
   },
   "license": "Apache License v2.0",
   "bin": {},
-  "main": "./index.js",
+  "main": "./lib/index.js",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
