@@ -1,0 +1,10 @@
+/*************************************/
+/* BEGIN "test/fixtures/images.less" */
+.foo {
+  background-image: url(ebay-logo.png);
+}
+.bar {
+  background-image: url(ebay-logo.png);
+}
+/* END   "test/fixtures/images.less" */
+/*************************************/

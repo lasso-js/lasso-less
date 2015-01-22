@@ -27,10 +27,8 @@ describe('optimizer-less' , function() {
     it('should render a complex less dependency', function(done) {
 
         var pageOptimizer = optimizer.create({
-                fileWriter: {
-                    fingerprintsEnabled: false,
-                    outputDir: nodePath.join(__dirname, 'static')
-                },
+                fingerprintsEnabled: false,
+                outputDir: nodePath.join(__dirname, 'static'),
                 bundlingEnabled: true,
                 plugins: [
                     {
@@ -61,14 +59,11 @@ describe('optimizer-less' , function() {
             });
     });
 
-
     it('should render a node module less dependency', function(done) {
 
         var pageOptimizer = optimizer.create({
-                fileWriter: {
-                    fingerprintsEnabled: false,
-                    outputDir: nodePath.join(__dirname, 'static')
-                },
+                fingerprintsEnabled: false,
+                outputDir: nodePath.join(__dirname, 'static'),
                 bundlingEnabled: true,
                 plugins: [
                     {
@@ -223,10 +218,8 @@ describe('optimizer-less' , function() {
     it('should handle errors', function(done) {
 
         var pageOptimizer = optimizer.create({
-                fileWriter: {
-                    fingerprintsEnabled: false,
-                    outputDir: nodePath.join(__dirname, 'static')
-                },
+                fingerprintsEnabled: false,
+                outputDir: nodePath.join(__dirname, 'static'),
                 bundlingEnabled: true,
                 plugins: [
                     {
@@ -246,6 +239,41 @@ describe('optimizer-less' , function() {
             },
             function(err, optimizedPage) {
                 expect(!!err).to.equal(true);
+                done();
+            });
+    });
+
+    it('should render a less dependency with images', function(done) {
+
+        var pageOptimizer = optimizer.create({
+                fingerprintsEnabled: false,
+                outputDir: nodePath.join(__dirname, 'static'),
+                bundlingEnabled: true,
+                plugins: [
+                    {
+                        plugin: lessPlugin,
+                        config: {
+
+                        }
+                    }
+                ]
+            });
+
+        pageOptimizer.optimizePage({
+                name: 'testPage',
+                dependencies: [
+                    nodePath.join(__dirname, 'fixtures/images.less')
+                ]
+            },
+            function(err, optimizedPage) {
+                if (err) {
+                    return done(err);
+                }
+
+                var actual = fs.readFileSync(nodePath.join(__dirname, 'static/testPage.css'), 'utf8');
+                var expected = fs.readFileSync(nodePath.join(__dirname, 'fixtures/images.less.expected.css'), 'utf8');
+                fs.writeFileSync(nodePath.join(__dirname, 'fixtures/images.less.actual.css'), actual, 'utf8');
+                expect(actual).to.equal(expected);
                 done();
             });
     });
