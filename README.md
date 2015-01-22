@@ -1,58 +1,134 @@
-# Optimizer Less
+optimizer-less
+==============
 
-Optimizer plugin to support compilation of less dependencies
+Optimizer plugin to support compilation of [Less](http://lesscss.org/) CSS dependencies
 
-### Installation
+# Installation
 
 ```sh
 npm install optimizer-less --save
 ```
 
-### Register to the Optimizer
-register the `optimizer-less` plugin to the Optimizer
-```sh 
+The `optimizer-less` plugin will then need to be registered as shown below before you can start adding Less dependencies:
+
+```javascript
 require('optimizer').configure({
-   ...
-   plugins:
-    [{
-        plugin: 'optimizer-less',
-        config:{
-        }
-    }]
     ...
+    plugins: [
+        'optimizer-less',
+        ...
+    ]
 });
 ```
-### Basic Usage
+
+# Basic Usage
+
 **Optimizer.json**
-```sh
+
+```json
 {
 	"dependencies": [
-		"./lib/large.less",
-		"./lib/medium.less"
+        "variables.less",
+		"foo.less",
+		"bar.less"
 	]
 }
 ```
 
-### Advance Usage
-To `import ` less files to an existing less file use the technique below.
+The `optimizer-less` plugin will concatenate all of the Less dependencies targeted for the same bundle and pass that as input to the Less renderer. Therefore, given the following contents of each file:
 
-To import a less file from a node modules use :
-   - `require: [NPM_MODULE]/PATH_TO_LESS_FILE.less` you can load npm modules that contain less files.
+_variables.less:_
 
-Dependencies get loaded by order in the `imports` array.
+```css
+@foo-color: red;
+@bar-color: green;
+```
 
-```sh
+_foo.less:_
+
+```css
+.foo {
+    color: @foo-color;
+}
+```
+
+_bar.less:_
+
+```css
+.bar {
+    color: @bar-color;
+}
+```
+
+The output will be the following:
+
+```css
+.foo {
+    color: red;
+}
+
+.bar {
+    color: green;
+}
+```
+
+# Less Imports
+
+You can use `@import` (e.g., `@import "foo.less";`) inside a Less file to import other Less files, but if you want to provide global imports to all Less files across all bundles then you can use the `less-import` dependency type as shown below:
+
+```json
 {
 	"dependencies": [
-		"./lib/large.less",
-		"./lib/medium.less",
-	    {
-			"path": "./lib/small.less", 
-			"imports": [
-                "require: slashui-mixins/mixins.less",
-                "./lib/common.less"
-            ]
-		}
+        "less-import: variables.less",
+		"foo.less",
+		"bar.less"
 	]
+}
+```
+
+The `optimizer-less` plugin also supports resolving Less files using the Node.js module resolver. If you need to include a Less file found in an installed module then you can prefix an import with `require:`. For example, given the following directory structure:
+
+```
+./
+└── node_modules/
+    └── my-module/
+        └── foo.less
+```
+
+The `foo.less` file that is part of the installed `my-module` can then be added as a dependency using either of the following approaches:
+
+_using `@import`:_
+
+```css
+@import "require: my-module/foo.less";
+```
+
+_using `optimizer.json`:_
+
+```json
+{
+    "dependencies": [
+        "require: my-module/foo.less"
+    ]
+}
+```
+
+# URLs
+
+URLs in the form `url(path)` inside Less files will automatically be resolved by the optimizer. For example:
+
+_input.less:_
+
+```css
+.foo {
+    background-image: url(foo.png);
+}
+```
+
+_output.css:_
+
+```css
+.foo {
+    background-image: url(/static/foo-a0db53.png);
 }
 ```
