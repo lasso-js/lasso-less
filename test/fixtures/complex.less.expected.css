@@ -1,25 +1,37 @@
+/**************************************/
 /* BEGIN "test/fixtures/complex.less" */
 /* @import "variables.less"; */
+/*----------------------------------------*/
 /* + BEGIN "test/fixtures/variables.less" */
-/* + END "test/fixtures/variables.less" */
+/* + END   "test/fixtures/variables.less" */
+/*----------------------------------------*/
 /* @import "foo/foo.less"; */
+/*--------------------------------------*/
 /* + BEGIN "test/fixtures/foo/foo.less" */
 /* @import "bar/bar.less"; */
+/*===========================================*/
 /* ++ BEGIN "test/fixtures/foo/bar/bar.less" */
-/* ++ END "test/fixtures/foo/bar/bar.less" */
+.bar {
+  font-size: 1em;
+}
+/* ++ END   "test/fixtures/foo/bar/bar.less" */
+/*===========================================*/
 /* @import "require: installed/mixins.less"; */
+/*=============================================================*/
 /* ++ BEGIN "test/fixtures/node_modules/installed/mixins.less" */
 .bordered {
   border-top: dotted 1px blue;
   border-bottom: solid 2px blue;
 }
-/* ++ END "test/fixtures/node_modules/installed/mixins.less" */
+/* ++ END   "test/fixtures/node_modules/installed/mixins.less" */
+/*=============================================================*/
 .foo {
-  background-image: url(/static/ebay-logo.png);
+  background-image: url(ebay-logo.png);
   border-top: dotted 1px blue;
   border-bottom: solid 2px blue;
 }
-/* + END "test/fixtures/foo/foo.less" */
+/* + END   "test/fixtures/foo/foo.less" */
+/*--------------------------------------*/
 /* @import "require: installed/mixins.less"; (skipped, already imported) */
 #header {
   color: green;
@@ -31,4 +43,5 @@ body {
   border-top: dotted 1px blue;
   border-bottom: solid 2px blue;
 }
-/* END "test/fixtures/complex.less" */
+/* END   "test/fixtures/complex.less" */
+/**************************************/

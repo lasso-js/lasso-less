@@ -9,6 +9,10 @@ var fs = require('fs');
 var lessPlugin = require('../'); // Load this module just to make sure it works
 var optimizer = require('optimizer');
 
+require('raptor-logging').configureLoggers({
+    'optimizer-less': 'WARN'
+});
+
 describe('optimizer-less' , function() {
 
     beforeEach(function(done) {
@@ -92,6 +96,125 @@ describe('optimizer-less' , function() {
                 fs.writeFileSync(nodePath.join(__dirname, 'fixtures/installed.less.actual.css'), actual, 'utf8');
                 var expected = fs.readFileSync(nodePath.join(__dirname, 'fixtures/installed.less.expected.css'), 'utf8');
                 expect(actual).to.equal(expected);
+                done();
+            });
+
+    });
+
+    it('should handling bundling correctly', function(done) {
+
+        var pageOptimizer = optimizer.create({
+                fingerprintsEnabled: false,
+                outputDir: nodePath.join(__dirname, 'static'),
+                bundlingEnabled: true,
+                plugins: [
+                    {
+                        plugin: lessPlugin,
+                        config: {
+
+                        }
+                    }
+                ],
+                bundles: [
+                    {
+                        name: 'baz',
+                        dependencies: [
+                            nodePath.join(__dirname, 'fixtures/bundling/baz/optimizer.json')
+                        ]
+                    }
+                ]
+            });
+
+        pageOptimizer.optimizePage({
+                name: 'testPage',
+                dependencies: [
+                    nodePath.join(__dirname, 'fixtures/bundling/optimizer.json')
+                ],
+                from: nodePath.join(__dirname, 'fixtures')
+            },
+            function(err, optimizedPage) {
+                if (err) {
+                    return done(err);
+                }
+
+                var outputFiles = optimizedPage.getCSSFiles();
+                expect(outputFiles.length).to.equal(3);
+
+
+                var actualPageCSS = fs.readFileSync(nodePath.join(__dirname, 'static/testPage.css'), 'utf8');
+                var actualAsyncCSS = fs.readFileSync(nodePath.join(__dirname, 'static/testPage-async.css'), 'utf8');
+                var actualBundleCSS = fs.readFileSync(nodePath.join(__dirname, 'static/baz.css'), 'utf8');
+
+                fs.writeFileSync(nodePath.join(__dirname, 'fixtures/bundling.less.testPage.actual.css'), actualPageCSS, 'utf8');
+                fs.writeFileSync(nodePath.join(__dirname, 'fixtures/bundling.less.testPage-async.actual.css'), actualAsyncCSS, 'utf8');
+                fs.writeFileSync(nodePath.join(__dirname, 'fixtures/bundling.less.baz.actual.css'), actualBundleCSS, 'utf8');
+
+
+                var expectedPageCSS = fs.readFileSync(nodePath.join(__dirname, 'fixtures/bundling.less.testPage.expected.css'), 'utf8');
+                var expectedAsyncCSS = fs.readFileSync(nodePath.join(__dirname, 'fixtures/bundling.less.testPage-async.expected.css'), 'utf8');
+                var expectedBundleCSS = fs.readFileSync(nodePath.join(__dirname, 'fixtures/bundling.less.baz.expected.css'), 'utf8');
+
+                expect(actualPageCSS).to.equal(expectedPageCSS);
+                expect(actualAsyncCSS).to.equal(expectedAsyncCSS);
+                expect(actualBundleCSS).to.equal(expectedBundleCSS);
+
+                done();
+            });
+
+    });
+
+    it('should work correctly when bundling is disabled', function(done) {
+
+        var pageOptimizer = optimizer.create({
+                fingerprintsEnabled: false,
+                outputDir: nodePath.join(__dirname, 'static'),
+                bundlingEnabled: false,
+                plugins: [
+                    {
+                        plugin: lessPlugin,
+                        config: {
+
+                        }
+                    }
+                ],
+                bundles: [
+                    {
+                        name: 'baz',
+                        dependencies: [
+                            nodePath.join(__dirname, 'fixtures/bundling/baz/optimizer.json')
+                        ]
+                    }
+                ]
+            });
+
+        pageOptimizer.optimizePage({
+                name: 'testPage',
+                dependencies: [
+                    nodePath.join(__dirname, 'fixtures/bundling/optimizer.json')
+                ],
+                from: nodePath.join(__dirname, 'fixtures')
+            },
+            function(err, optimizedPage) {
+                if (err) {
+                    return done(err);
+                }
+
+                var outputFiles = optimizedPage.getCSSFiles();
+                expect(outputFiles.length).to.equal(2);
+
+
+                var actualPageCSS = fs.readFileSync(nodePath.join(__dirname, 'static/testPage.css'), 'utf8');
+                var actualAsyncCSS = fs.readFileSync(nodePath.join(__dirname, 'static/testPage-async.css'), 'utf8');
+
+                fs.writeFileSync(nodePath.join(__dirname, 'fixtures/unbundled.less.testPage.actual.css'), actualPageCSS, 'utf8');
+                fs.writeFileSync(nodePath.join(__dirname, 'fixtures/unbundled.less.testPage-async.actual.css'), actualAsyncCSS, 'utf8');
+
+                var expectedPageCSS = fs.readFileSync(nodePath.join(__dirname, 'fixtures/unbundled.less.testPage.expected.css'), 'utf8');
+                var expectedAsyncCSS = fs.readFileSync(nodePath.join(__dirname, 'fixtures/unbundled.less.testPage-async.expected.css'), 'utf8');
+
+                expect(actualPageCSS).to.equal(expectedPageCSS);
+                expect(actualAsyncCSS).to.equal(expectedAsyncCSS);
+
                 done();
             });
 

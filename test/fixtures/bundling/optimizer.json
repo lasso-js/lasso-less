@@ -1,0 +1,16 @@
+{
+    "dependencies": [
+        "less-import: variables.less",
+        "main.less",
+        "./baz/optimizer.json"
+    ],
+
+    "async": {
+        "foo": [
+            "./foo/optimizer.json"
+        ],
+        "bar": [
+            "./bar/optimizer.json"
+        ]
+    }
+}

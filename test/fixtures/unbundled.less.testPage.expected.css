@@ -1,0 +1,22 @@
+/*************************************************/
+/* BEGIN "test/fixtures/bundling/variables.less" */
+/* END   "test/fixtures/bundling/variables.less" */
+/*************************************************/
+/********************************************/
+/* BEGIN "test/fixtures/bundling/main.less" */
+/* @import "require:installed/mixins.less"; */
+/*------------------------------------------------------------*/
+/* + BEGIN "test/fixtures/node_modules/installed/mixins.less" */
+.bordered {
+  border-top: dotted 1px purple;
+  border-bottom: solid 2px purple;
+}
+/* + END   "test/fixtures/node_modules/installed/mixins.less" */
+/*------------------------------------------------------------*/
+.main {
+  color: red;
+  border-top: dotted 1px purple;
+  border-bottom: solid 2px purple;
+}
+/* END   "test/fixtures/bundling/main.less" */
+/********************************************/
