@@ -1,6 +1,8 @@
 optimizer-less
 ==============
 
+[![Build Status](https://travis-ci.org/raptorjs/optimizer-less.svg?branch=master)](https://travis-ci.org/raptorjs/optimizer-less)
+
 Optimizer plugin to support compilation of [Less](http://lesscss.org/) CSS dependencies
 
 # Installation
