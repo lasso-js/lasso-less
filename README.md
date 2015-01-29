@@ -29,10 +29,10 @@ require('optimizer').configure({
 
 ```json
 {
-	"dependencies": [
-        "variables.less",
-		"foo.less",
-		"bar.less"
+    "dependencies": [
+        "./variables.less",
+        "./foo.less",
+        "./bar.less"
 	]
 }
 ```
@@ -81,9 +81,9 @@ You can use `@import` (e.g., `@import "foo.less";`) inside a Less file to import
 ```json
 {
 	"dependencies": [
-        "less-import: variables.less",
-		"foo.less",
-		"bar.less"
+        "less-import: ./variables.less",
+        "./foo.less",
+        "./bar.less"
 	]
 }
 ```
