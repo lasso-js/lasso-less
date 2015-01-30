@@ -141,19 +141,23 @@ _output.css:_
 The `optimizer-less` plugin resolves resource URLs (e.g. `url(logo.png)`) before the CSS is produced. Therefore, the following is __not allowed__ since Less variables are not allowed in the `url()` function:
 
 ```css
+/* WILL NOT WORK! */
+
 @logo-image: "logo.png";
 
 .foo {
-    background-image: url("@{logo-image}"); /* WILL NOT WORK */
+    background-image: url("@{logo-image}"); 
 }
 ```
 
 Instead, you must do the following:
 
 ```css
+/* WORKS! */
+
 @logo-image: url(logo.png);
 
 .foo {
-    background-image: @logo-image; /* WORKS! */
+    background-image: @logo-image;
 }
 ```
