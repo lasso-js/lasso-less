@@ -44,6 +44,7 @@ _variables.less:_
 ```css
 @foo-color: red;
 @bar-color: green;
+@logo-image: url(logo.png);
 ```
 
 _foo.less:_
@@ -51,6 +52,7 @@ _foo.less:_
 ```css
 .foo {
     color: @foo-color;
+    background-image: @logo-image;
 }
 ```
 
@@ -67,6 +69,7 @@ The output will be the following:
 ```css
 .foo {
     color: red;
+    background-image: url(logo-a0db53.png);
 }
 
 .bar {
@@ -132,5 +135,27 @@ _output.css:_
 ```css
 .foo {
     background-image: url(/static/foo-a0db53.png);
+}
+```
+
+# Resource URLs
+
+The `optimizer-less` plugin resolves resource URLs (e.g. `url(logo.png)`) before the CSS is produced. Therefore, the following is __not allowed__:
+
+```css
+@logo-image: "logo.png";
+
+.foo {
+    background-image: url("@{logo-image}"); /* WILL NOT WORK */
+}
+```
+
+Instead, you must do the following:
+
+```css
+@logo-image: url(logo.png);
+
+.foo {
+    background-image: @logo-image; /* WORKS! */
 }
 ```
