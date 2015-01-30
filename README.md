@@ -138,9 +138,7 @@ _output.css:_
 }
 ```
 
-# Resource URLs
-
-The `optimizer-less` plugin resolves resource URLs (e.g. `url(logo.png)`) before the CSS is produced. Therefore, the following is __not allowed__:
+The `optimizer-less` plugin resolves resource URLs (e.g. `url(logo.png)`) before the CSS is produced. Therefore, the following is __not allowed__ since Less variables are not allowed in the `url()` function:
 
 ```css
 @logo-image: "logo.png";
