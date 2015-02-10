@@ -6,5 +6,8 @@
 .bar {
   background-image: url(ebay-logo.png);
 }
+.baz {
+  background-image: url(http://baz.com/baz.png);
+}
 /* END   "test/fixtures/images.less" */
 /*************************************/
