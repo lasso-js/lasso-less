@@ -1,48 +1,48 @@
 {
-  "name": "optimizer-less",
-  "description": "RaptorJS Optimizer plugin to support compilation of less dependencies",
-  "keywords": [
-    "optimizer",
-    "optimizer-plugin",
-    "less"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/raptorjs/optimizer-less.git"
-  },
-  "scripts": {
-    "test": "node_modules/.bin/mocha --ui bdd --reporter spec ./test && node_modules/.bin/jshint lib/**/*.js"
-  },
-  "author": "Patrick Steele-Idem <pnidem@gmail.com>",
-  "contributors": [
-    "Patrick Steele-Idem <pnidem@gmail.com>",
-    "Phillip Gates-Idem <phillip.idem@gmail.com>",
-    "Mahdi Pedramrazi <pedramphp@gmail.com>"
-  ],
-  "maintainers": [
-    "Patrick Steele-Idem <pnidem@gmail.com>",
-    "Mahdi Pedramrazi <pedramphp@gmail.com>"
-  ],
-  "dependencies": {
-    "async": "^0.9.0",
-    "less": "^2.0.0",
-    "raptor-async": "^1.0.3",
-    "raptor-logging": "^1.0.5",
-    "raptor-modules": "^1.0.18",
-    "raptor-polyfill": "^1.0.2",
-    "resolve-from": "^1.0.0"
-  },
-  "devDependencies": {
-    "chai": "^1.9.1",
-    "jshint": "^2.5.5",
-    "mocha": "^1.21.4",
-    "optimizer": "^1.0.11"
-  },
-  "license": "Apache License v2.0",
-  "bin": {},
-  "main": "./lib/index.js",
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
-  },
-  "version": "2.0.1"
+    "name": "optimizer-less",
+    "description": "RaptorJS Optimizer plugin to support compilation of less dependencies",
+    "keywords": [
+        "optimizer",
+        "optimizer-plugin",
+        "less"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/raptorjs/optimizer-less.git"
+    },
+    "scripts": {
+        "test": "node_modules/.bin/mocha --ui bdd --reporter spec ./test && node_modules/.bin/jshint lib/**/*.js"
+    },
+    "author": "Patrick Steele-Idem <pnidem@gmail.com>",
+    "contributors": [
+        "Patrick Steele-Idem <pnidem@gmail.com>",
+        "Phillip Gates-Idem <phillip.idem@gmail.com>",
+        "Mahdi Pedramrazi <pedramphp@gmail.com>"
+    ],
+    "maintainers": [
+        "Patrick Steele-Idem <pnidem@gmail.com>",
+        "Mahdi Pedramrazi <pedramphp@gmail.com>"
+    ],
+    "dependencies": {
+        "async": "^0.9.0",
+        "less": "^2.0.0",
+        "raptor-async": "^1.0.3",
+        "raptor-logging": "^1.0.5",
+        "raptor-modules": "^1.0.18",
+        "raptor-polyfill": "^1.0.2",
+        "resolve-from": "^1.0.0"
+    },
+    "devDependencies": {
+        "chai": "^1.9.1",
+        "jshint": "^2.5.5",
+        "mocha": "^1.21.4",
+        "optimizer": "^1.0.11"
+    },
+    "license": "Apache License v2.0",
+    "bin": {},
+    "main": "./lib/index.js",
+    "publishConfig": {
+        "registry": "https://registry.npmjs.org/"
+    },
+    "version": "2.0.2"
 }
