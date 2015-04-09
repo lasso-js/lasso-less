@@ -114,7 +114,7 @@ describe('optimizer-less' , function() {
                     {
                         name: 'baz',
                         dependencies: [
-                            nodePath.join(__dirname, 'fixtures/bundling/baz/optimizer.json')
+                            nodePath.join(__dirname, 'fixtures/bundling/baz/browser.json')
                         ]
                     }
                 ]
@@ -123,7 +123,7 @@ describe('optimizer-less' , function() {
         pageOptimizer.optimizePage({
                 name: 'testPage',
                 dependencies: [
-                    nodePath.join(__dirname, 'fixtures/bundling/optimizer.json')
+                    nodePath.join(__dirname, 'fixtures/bundling/browser.json')
                 ],
                 from: nodePath.join(__dirname, 'fixtures')
             },
@@ -176,7 +176,7 @@ describe('optimizer-less' , function() {
                     {
                         name: 'baz',
                         dependencies: [
-                            nodePath.join(__dirname, 'fixtures/bundling/baz/optimizer.json')
+                            nodePath.join(__dirname, 'fixtures/bundling/baz/browser.json')
                         ]
                     }
                 ]
@@ -185,7 +185,7 @@ describe('optimizer-less' , function() {
         pageOptimizer.optimizePage({
                 name: 'testPage',
                 dependencies: [
-                    nodePath.join(__dirname, 'fixtures/bundling/optimizer.json')
+                    nodePath.join(__dirname, 'fixtures/bundling/browser.json')
                 ],
                 from: nodePath.join(__dirname, 'fixtures')
             },

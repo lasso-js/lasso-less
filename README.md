@@ -108,7 +108,7 @@ _using `@import`:_
 @import "require: my-module/foo.less";
 ```
 
-_using `optimizer.json`:_
+_using `browser.json`:_
 
 ```json
 {

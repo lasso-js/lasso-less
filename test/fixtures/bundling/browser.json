@@ -2,15 +2,15 @@
     "dependencies": [
         "less-import: variables.less",
         "main.less",
-        "./baz/optimizer.json"
+        "./baz/browser.json"
     ],
 
     "async": {
         "foo": [
-            "./foo/optimizer.json"
+            "./foo/browser.json"
         ],
         "bar": [
-            "./bar/optimizer.json"
+            "./bar/browser.json"
         ]
     }
 }
