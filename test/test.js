@@ -46,7 +46,7 @@ describe('lasso-less' , function() {
                     nodePath.join(__dirname, 'fixtures/complex.less')
                 ]
             },
-            function(err, optimizedPage) {
+            function(err, lassoPageResult) {
                 if (err) {
                     return done(err);
                 }
@@ -82,7 +82,7 @@ describe('lasso-less' , function() {
                 ],
                 from: nodePath.join(__dirname, 'fixtures')
             },
-            function(err, optimizedPage) {
+            function(err, lassoPageResult) {
                 if (err) {
                     return done(err);
                 }
@@ -127,12 +127,12 @@ describe('lasso-less' , function() {
                 ],
                 from: nodePath.join(__dirname, 'fixtures')
             },
-            function(err, optimizedPage) {
+            function(err, lassoPageResult) {
                 if (err) {
                     return done(err);
                 }
 
-                var outputFiles = optimizedPage.getCSSFiles();
+                var outputFiles = lassoPageResult.getCSSFiles();
                 expect(outputFiles.length).to.equal(3);
 
 
@@ -189,12 +189,12 @@ describe('lasso-less' , function() {
                 ],
                 from: nodePath.join(__dirname, 'fixtures')
             },
-            function(err, optimizedPage) {
+            function(err, lassoPageResult) {
                 if (err) {
                     return done(err);
                 }
 
-                var outputFiles = optimizedPage.getCSSFiles();
+                var outputFiles = lassoPageResult.getCSSFiles();
                 expect(outputFiles.length).to.equal(2);
 
 
@@ -237,7 +237,7 @@ describe('lasso-less' , function() {
                     nodePath.join(__dirname, 'fixtures/error.less')
                 ]
             },
-            function(err, optimizedPage) {
+            function(err, lassoPageResult) {
                 expect(!!err).to.equal(true);
                 done();
             });
@@ -265,7 +265,7 @@ describe('lasso-less' , function() {
                     nodePath.join(__dirname, 'fixtures/images.less')
                 ]
             },
-            function(err, optimizedPage) {
+            function(err, lassoPageResult) {
                 if (err) {
                     return done(err);
                 }
