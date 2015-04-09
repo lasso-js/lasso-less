@@ -1,7 +1,7 @@
 lasso-less
 ==============
 
-[![Build Status](https://travis-ci.org/raptorjs/lasso-less.svg?branch=master)](https://travis-ci.org/raptorjs/lasso-less)
+[![Build Status](https://travis-ci.org/lasso-js/lasso-less.svg?branch=master)](https://travis-ci.org/lasso-js/lasso-less)
 
 Lasso.js plugin to support compilation of [Less](http://lesscss.org/) CSS dependencies
 
