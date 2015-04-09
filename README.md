@@ -3,7 +3,7 @@ lasso-less
 
 [![Build Status](https://travis-ci.org/raptorjs/lasso-less.svg?branch=master)](https://travis-ci.org/raptorjs/lasso-less)
 
-Optimizer plugin to support compilation of [Less](http://lesscss.org/) CSS dependencies
+Lasso.js plugin to support compilation of [Less](http://lesscss.org/) CSS dependencies
 
 # Installation
 
@@ -25,7 +25,7 @@ require('lasso').configure({
 
 # Basic Usage
 
-**Optimizer.json**
+**browser.json**
 
 ```json
 {
@@ -146,7 +146,7 @@ The `lasso-less` plugin resolves resource URLs (e.g. `url(logo.png)`) before the
 @logo-image: "logo.png";
 
 .foo {
-    background-image: url("@{logo-image}"); 
+    background-image: url("@{logo-image}");
 }
 ```
 
