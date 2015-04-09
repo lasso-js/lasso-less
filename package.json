@@ -1,14 +1,14 @@
 {
-    "name": "optimizer-less",
+    "name": "lasso-less",
     "description": "RaptorJS Optimizer plugin to support compilation of less dependencies",
     "keywords": [
-        "optimizer",
-        "optimizer-plugin",
+        "lasso",
+        "lasso-plugin",
         "less"
     ],
     "repository": {
         "type": "git",
-        "url": "https://github.com/raptorjs/optimizer-less.git"
+        "url": "https://github.com/raptorjs/lasso-less.git"
     },
     "scripts": {
         "test": "node_modules/.bin/mocha --ui bdd --reporter spec ./test && node_modules/.bin/jshint lib/**/*.js"
@@ -36,7 +36,7 @@
         "chai": "^1.9.1",
         "jshint": "^2.5.5",
         "mocha": "^1.21.4",
-        "optimizer": "^1.0.11"
+        "lasso": "^1.0.11"
     },
     "license": "Apache License v2.0",
     "bin": {},

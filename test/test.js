@@ -7,13 +7,13 @@ var nodePath = require('path');
 var fs = require('fs');
 
 var lessPlugin = require('../'); // Load this module just to make sure it works
-var optimizer = require('optimizer');
+var lasso = require('lasso');
 
 require('raptor-logging').configureLoggers({
-    'optimizer-less': 'WARN'
+    'lasso-less': 'WARN'
 });
 
-describe('optimizer-less' , function() {
+describe('lasso-less' , function() {
 
     beforeEach(function(done) {
         for (var k in require.cache) {
@@ -26,7 +26,7 @@ describe('optimizer-less' , function() {
 
     it('should render a complex less dependency', function(done) {
 
-        var pageOptimizer = optimizer.create({
+        var pageOptimizer = lasso.create({
                 fingerprintsEnabled: false,
                 outputDir: nodePath.join(__dirname, 'static'),
                 bundlingEnabled: true,
@@ -61,7 +61,7 @@ describe('optimizer-less' , function() {
 
     it('should render a node module less dependency', function(done) {
 
-        var pageOptimizer = optimizer.create({
+        var pageOptimizer = lasso.create({
                 fingerprintsEnabled: false,
                 outputDir: nodePath.join(__dirname, 'static'),
                 bundlingEnabled: true,
@@ -98,7 +98,7 @@ describe('optimizer-less' , function() {
 
     it('should handling bundling correctly', function(done) {
 
-        var pageOptimizer = optimizer.create({
+        var pageOptimizer = lasso.create({
                 fingerprintsEnabled: false,
                 outputDir: nodePath.join(__dirname, 'static'),
                 bundlingEnabled: true,
@@ -160,7 +160,7 @@ describe('optimizer-less' , function() {
 
     it('should work correctly when bundling is disabled', function(done) {
 
-        var pageOptimizer = optimizer.create({
+        var pageOptimizer = lasso.create({
                 fingerprintsEnabled: false,
                 outputDir: nodePath.join(__dirname, 'static'),
                 bundlingEnabled: false,
@@ -217,7 +217,7 @@ describe('optimizer-less' , function() {
 
     it('should handle errors', function(done) {
 
-        var pageOptimizer = optimizer.create({
+        var pageOptimizer = lasso.create({
                 fingerprintsEnabled: false,
                 outputDir: nodePath.join(__dirname, 'static'),
                 bundlingEnabled: true,
@@ -245,7 +245,7 @@ describe('optimizer-less' , function() {
 
     it('should render a less dependency with images', function(done) {
 
-        var pageOptimizer = optimizer.create({
+        var pageOptimizer = lasso.create({
                 fingerprintsEnabled: false,
                 outputDir: nodePath.join(__dirname, 'static'),
                 bundlingEnabled: true,

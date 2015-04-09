@@ -1,23 +1,23 @@
-optimizer-less
+lasso-less
 ==============
 
-[![Build Status](https://travis-ci.org/raptorjs/optimizer-less.svg?branch=master)](https://travis-ci.org/raptorjs/optimizer-less)
+[![Build Status](https://travis-ci.org/raptorjs/lasso-less.svg?branch=master)](https://travis-ci.org/raptorjs/lasso-less)
 
 Optimizer plugin to support compilation of [Less](http://lesscss.org/) CSS dependencies
 
 # Installation
 
 ```sh
-npm install optimizer-less --save
+npm install lasso-less --save
 ```
 
-The `optimizer-less` plugin will then need to be registered as shown below before you can start adding Less dependencies:
+The `lasso-less` plugin will then need to be registered as shown below before you can start adding Less dependencies:
 
 ```javascript
-require('optimizer').configure({
+require('lasso').configure({
     ...
     plugins: [
-        'optimizer-less',
+        'lasso-less',
         ...
     ]
 });
@@ -37,7 +37,7 @@ require('optimizer').configure({
 }
 ```
 
-The `optimizer-less` plugin will concatenate all of the Less dependencies targeted for the same bundle and pass that as input to the Less renderer. Therefore, given the following contents of each file:
+The `lasso-less` plugin will concatenate all of the Less dependencies targeted for the same bundle and pass that as input to the Less renderer. Therefore, given the following contents of each file:
 
 _variables.less:_
 
@@ -91,7 +91,7 @@ You can use `@import` (e.g., `@import "foo.less";`) inside a Less file to import
 }
 ```
 
-The `optimizer-less` plugin also supports resolving Less files using the Node.js module resolver. If you need to include a Less file found in an installed module then you can prefix an import with `require:`. For example, given the following directory structure:
+The `lasso-less` plugin also supports resolving Less files using the Node.js module resolver. If you need to include a Less file found in an installed module then you can prefix an import with `require:`. For example, given the following directory structure:
 
 ```
 ./
@@ -120,7 +120,7 @@ _using `browser.json`:_
 
 # URLs
 
-URLs in the form `url(path)` inside Less files will automatically be resolved by the optimizer. For example:
+URLs in the form `url(path)` inside Less files will automatically be resolved by the lasso. For example:
 
 _input.less:_
 
@@ -138,7 +138,7 @@ _output.css:_
 }
 ```
 
-The `optimizer-less` plugin resolves resource URLs (e.g. `url(logo.png)`) before the CSS is produced. Therefore, the following is __not allowed__ since Less variables are not allowed in the `url()` function:
+The `lasso-less` plugin resolves resource URLs (e.g. `url(logo.png)`) before the CSS is produced. Therefore, the following is __not allowed__ since Less variables are not allowed in the `url()` function:
 
 ```css
 /* BAD! ☹ */
