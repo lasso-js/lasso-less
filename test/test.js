@@ -40,7 +40,7 @@ describe('lasso-less' , function() {
                 ]
             });
 
-        myLasso.optimizePage({
+        myLasso.lassoPage({
                 name: 'testPage',
                 dependencies: [
                     nodePath.join(__dirname, 'fixtures/complex.less')
@@ -75,7 +75,7 @@ describe('lasso-less' , function() {
                 ]
             });
 
-        myLasso.optimizePage({
+        myLasso.lassoPage({
                 name: 'testPage',
                 dependencies: [
                     "require: installed/style.less"
@@ -120,7 +120,7 @@ describe('lasso-less' , function() {
                 ]
             });
 
-        myLasso.optimizePage({
+        myLasso.lassoPage({
                 name: 'testPage',
                 dependencies: [
                     nodePath.join(__dirname, 'fixtures/bundling/browser.json')
@@ -182,7 +182,7 @@ describe('lasso-less' , function() {
                 ]
             });
 
-        myLasso.optimizePage({
+        myLasso.lassoPage({
                 name: 'testPage',
                 dependencies: [
                     nodePath.join(__dirname, 'fixtures/bundling/browser.json')
@@ -231,7 +231,7 @@ describe('lasso-less' , function() {
                 ]
             });
 
-        myLasso.optimizePage({
+        myLasso.lassoPage({
                 name: 'testPage',
                 dependencies: [
                     nodePath.join(__dirname, 'fixtures/error.less')
@@ -259,7 +259,7 @@ describe('lasso-less' , function() {
                 ]
             });
 
-        myLasso.optimizePage({
+        myLasso.lassoPage({
                 name: 'testPage',
                 dependencies: [
                     nodePath.join(__dirname, 'fixtures/images.less')
