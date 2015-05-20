@@ -51,9 +51,9 @@ describe('lasso-less' , function() {
                     return done(err);
                 }
 
-                var actual = fs.readFileSync(nodePath.join(__dirname, 'static/testPage.css'), 'utf8');
-                var expected = fs.readFileSync(nodePath.join(__dirname, 'fixtures/complex.less.expected.css'), 'utf8');
-                fs.writeFileSync(nodePath.join(__dirname, 'fixtures/complex.less.actual.css'), actual, 'utf8');
+                var actual = fs.readFileSync(nodePath.join(__dirname, 'static/testPage.css'), {encoding: 'utf8'});
+                var expected = fs.readFileSync(nodePath.join(__dirname, 'fixtures/complex.less.expected.css'), {encoding: 'utf8'});
+                fs.writeFileSync(nodePath.join(__dirname, 'fixtures/complex.less.actual.css'), actual, {encoding: 'utf8'});
                 expect(actual).to.equal(expected);
                 done();
             });
@@ -87,9 +87,9 @@ describe('lasso-less' , function() {
                     return done(err);
                 }
 
-                var actual = fs.readFileSync(nodePath.join(__dirname, 'static/testPage.css'), 'utf8');
-                fs.writeFileSync(nodePath.join(__dirname, 'fixtures/installed.less.actual.css'), actual, 'utf8');
-                var expected = fs.readFileSync(nodePath.join(__dirname, 'fixtures/installed.less.expected.css'), 'utf8');
+                var actual = fs.readFileSync(nodePath.join(__dirname, 'static/testPage.css'), {encoding: 'utf8'});
+                fs.writeFileSync(nodePath.join(__dirname, 'fixtures/installed.less.actual.css'), actual, {encoding: 'utf8'});
+                var expected = fs.readFileSync(nodePath.join(__dirname, 'fixtures/installed.less.expected.css'), {encoding: 'utf8'});
                 expect(actual).to.equal(expected);
                 done();
             });
@@ -136,18 +136,18 @@ describe('lasso-less' , function() {
                 expect(outputFiles.length).to.equal(3);
 
 
-                var actualPageCSS = fs.readFileSync(nodePath.join(__dirname, 'static/testPage.css'), 'utf8');
-                var actualAsyncCSS = fs.readFileSync(nodePath.join(__dirname, 'static/testPage-async.css'), 'utf8');
-                var actualBundleCSS = fs.readFileSync(nodePath.join(__dirname, 'static/baz.css'), 'utf8');
+                var actualPageCSS = fs.readFileSync(nodePath.join(__dirname, 'static/testPage.css'), {encoding: 'utf8'});
+                var actualAsyncCSS = fs.readFileSync(nodePath.join(__dirname, 'static/testPage-async.css'), {encoding: 'utf8'});
+                var actualBundleCSS = fs.readFileSync(nodePath.join(__dirname, 'static/baz.css'), {encoding: 'utf8'});
 
-                fs.writeFileSync(nodePath.join(__dirname, 'fixtures/bundling.less.testPage.actual.css'), actualPageCSS, 'utf8');
-                fs.writeFileSync(nodePath.join(__dirname, 'fixtures/bundling.less.testPage-async.actual.css'), actualAsyncCSS, 'utf8');
-                fs.writeFileSync(nodePath.join(__dirname, 'fixtures/bundling.less.baz.actual.css'), actualBundleCSS, 'utf8');
+                fs.writeFileSync(nodePath.join(__dirname, 'fixtures/bundling.less.testPage.actual.css'), actualPageCSS, {encoding: 'utf8'});
+                fs.writeFileSync(nodePath.join(__dirname, 'fixtures/bundling.less.testPage-async.actual.css'), actualAsyncCSS, {encoding: 'utf8'});
+                fs.writeFileSync(nodePath.join(__dirname, 'fixtures/bundling.less.baz.actual.css'), actualBundleCSS, {encoding: 'utf8'});
 
 
-                var expectedPageCSS = fs.readFileSync(nodePath.join(__dirname, 'fixtures/bundling.less.testPage.expected.css'), 'utf8');
-                var expectedAsyncCSS = fs.readFileSync(nodePath.join(__dirname, 'fixtures/bundling.less.testPage-async.expected.css'), 'utf8');
-                var expectedBundleCSS = fs.readFileSync(nodePath.join(__dirname, 'fixtures/bundling.less.baz.expected.css'), 'utf8');
+                var expectedPageCSS = fs.readFileSync(nodePath.join(__dirname, 'fixtures/bundling.less.testPage.expected.css'), {encoding: 'utf8'});
+                var expectedAsyncCSS = fs.readFileSync(nodePath.join(__dirname, 'fixtures/bundling.less.testPage-async.expected.css'), {encoding: 'utf8'});
+                var expectedBundleCSS = fs.readFileSync(nodePath.join(__dirname, 'fixtures/bundling.less.baz.expected.css'), {encoding: 'utf8'});
 
                 expect(actualPageCSS).to.equal(expectedPageCSS);
                 expect(actualAsyncCSS).to.equal(expectedAsyncCSS);
@@ -198,14 +198,14 @@ describe('lasso-less' , function() {
                 expect(outputFiles.length).to.equal(2);
 
 
-                var actualPageCSS = fs.readFileSync(nodePath.join(__dirname, 'static/testPage.css'), 'utf8');
-                var actualAsyncCSS = fs.readFileSync(nodePath.join(__dirname, 'static/testPage-async.css'), 'utf8');
+                var actualPageCSS = fs.readFileSync(nodePath.join(__dirname, 'static/testPage.css'), {encoding: 'utf8'});
+                var actualAsyncCSS = fs.readFileSync(nodePath.join(__dirname, 'static/testPage-async.css'), {encoding: 'utf8'});
 
-                fs.writeFileSync(nodePath.join(__dirname, 'fixtures/unbundled.less.testPage.actual.css'), actualPageCSS, 'utf8');
-                fs.writeFileSync(nodePath.join(__dirname, 'fixtures/unbundled.less.testPage-async.actual.css'), actualAsyncCSS, 'utf8');
+                fs.writeFileSync(nodePath.join(__dirname, 'fixtures/unbundled.less.testPage.actual.css'), actualPageCSS, {encoding: 'utf8'});
+                fs.writeFileSync(nodePath.join(__dirname, 'fixtures/unbundled.less.testPage-async.actual.css'), actualAsyncCSS, {encoding: 'utf8'});
 
-                var expectedPageCSS = fs.readFileSync(nodePath.join(__dirname, 'fixtures/unbundled.less.testPage.expected.css'), 'utf8');
-                var expectedAsyncCSS = fs.readFileSync(nodePath.join(__dirname, 'fixtures/unbundled.less.testPage-async.expected.css'), 'utf8');
+                var expectedPageCSS = fs.readFileSync(nodePath.join(__dirname, 'fixtures/unbundled.less.testPage.expected.css'), {encoding: 'utf8'});
+                var expectedAsyncCSS = fs.readFileSync(nodePath.join(__dirname, 'fixtures/unbundled.less.testPage-async.expected.css'), {encoding: 'utf8'});
 
                 expect(actualPageCSS).to.equal(expectedPageCSS);
                 expect(actualAsyncCSS).to.equal(expectedAsyncCSS);
@@ -270,9 +270,9 @@ describe('lasso-less' , function() {
                     return done(err);
                 }
 
-                var actual = fs.readFileSync(nodePath.join(__dirname, 'static/testPage.css'), 'utf8');
-                var expected = fs.readFileSync(nodePath.join(__dirname, 'fixtures/images.less.expected.css'), 'utf8');
-                fs.writeFileSync(nodePath.join(__dirname, 'fixtures/images.less.actual.css'), actual, 'utf8');
+                var actual = fs.readFileSync(nodePath.join(__dirname, 'static/testPage.css'), {encoding: 'utf8'});
+                var expected = fs.readFileSync(nodePath.join(__dirname, 'fixtures/images.less.expected.css'), {encoding: 'utf8'});
+                fs.writeFileSync(nodePath.join(__dirname, 'fixtures/images.less.actual.css'), actual, {encoding: 'utf8'});
                 expect(actual).to.equal(expected);
                 done();
             });
