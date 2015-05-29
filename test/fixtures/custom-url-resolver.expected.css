@@ -1,0 +1,10 @@
+/**************************************************/
+/* BEGIN "test/fixtures/custom-url-resolver.less" */
+.absolute-url {
+  background-image: url('http://foo');
+}
+.custom-url {
+  background-image: url('BAR');
+}
+/* END   "test/fixtures/custom-url-resolver.less" */
+/**************************************************/

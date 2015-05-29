@@ -120,7 +120,7 @@ _using `browser.json`:_
 
 # URLs
 
-URLs in the form `url(path)` inside Less files will automatically be resolved by the lasso. For example:
+URLs in the form `url(<url>)` inside Less files will automatically be resolved by this plugin. Unless the URL is an absolute URL, this plugin will attempt to resolve the URL to an actual file on the file system. After resolving the URL to a file, the file will then be sent through the Lasso.js pipeline to produce the final URL.
 
 _input.less:_
 
@@ -138,10 +138,13 @@ _output.css:_
 }
 ```
 
-The `lasso-less` plugin resolves resource URLs (e.g. `url(logo.png)`) before the CSS is produced. Therefore, the following is __not allowed__ since Less variables are not allowed in the `url()` function:
+It is recommended to avoid putting variables inside a `url()` part. URLs without variables are resolved relative to where the variable is first introduced. URLs with variables are resolved relative to the Less file that makes use of the variable and this will often not be the correct behavior. If you want to change how URLs are resolved, you can provide a custom URL resolver when registering the `lasso-less` plugin (see next section).
+
+To clarify:
+
 
 ```css
-/* BAD! ☹ */
+/* Not recommended ☹ */
 
 @logo-image: "logo.png";
 
@@ -150,7 +153,7 @@ The `lasso-less` plugin resolves resource URLs (e.g. `url(logo.png)`) before the
 }
 ```
 
-Instead, you must do the following:
+Instead, the following is recommended:
 
 ```css
 /* GOOD! ☺ */
@@ -161,3 +164,39 @@ Instead, you must do the following:
     background-image: @logo-image;
 }
 ```
+
+## Custom URL Resolver
+
+A custom URL resolver can be provided when registering the `lasso-less` plugin as shown below:
+
+```javascript
+require('lasso').configure({
+    ...
+    plugins: [
+        {
+            plugin: 'lasso-less',
+            config: {
+                urlResolver: function(url, context, callback) {
+                    if (/^foo:/.test(url)) {
+                        callback(null, url.substring(4).toUpperCase());
+                    } else {
+                        context.defaultUrlResolver(url, context, callback);
+                    }
+                }
+            }
+        },
+        ...
+    ]
+});
+```
+
+If provided, all URLs will be resolved using the provided URL resolver. For the default implementation please see: [lib/util/default-url-resolver.js](lib/util/default-url-resolver.js)
+
+The `context` argument will contain the following properties:
+
+- `path` - The file system path of the containing Less file
+- `dir` - The parent directory of the containing Less file
+- `defaultUrlResolver` (`Function(url, context, callback)`) - The default URL resolver
+- `pluginConfig` - The configuration passed to the `lasso-less` plugin when registered
+- `lasso` - The Lasso.js instance
+- `lassoContext` - The Lasso.js context object
