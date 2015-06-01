@@ -278,4 +278,80 @@ describe('lasso-less' , function() {
             });
     });
 
+    it('should resolve dynamic URLs', function(done) {
+
+        var myLasso = lasso.create({
+                fingerprintsEnabled: false,
+                outputDir: nodePath.join(__dirname, 'static'),
+                bundlingEnabled: true,
+                plugins: [
+                    {
+                        plugin: lessPlugin,
+                        config: {
+
+                        }
+                    }
+                ]
+            });
+
+        myLasso.lassoPage({
+                name: 'testPage',
+                dependencies: [
+                    nodePath.join(__dirname, 'fixtures/dynamic-urls.less')
+                ]
+            },
+            function(err, lassoPageResult) {
+                if (err) {
+                    return done(err);
+                }
+
+                var actual = fs.readFileSync(nodePath.join(__dirname, 'static/testPage.css'), {encoding: 'utf8'});
+                var expected = fs.readFileSync(nodePath.join(__dirname, 'fixtures/dynamic-urls.less.expected.css'), {encoding: 'utf8'});
+                fs.writeFileSync(nodePath.join(__dirname, 'fixtures/dynamic-urls.less.actual.css'), actual, {encoding: 'utf8'});
+                expect(actual).to.equal(expected);
+                done();
+            });
+    });
+
+    it('should support custom URL resolvers', function(done) {
+
+        var myLasso = lasso.create({
+                fingerprintsEnabled: false,
+                outputDir: nodePath.join(__dirname, 'static'),
+                bundlingEnabled: true,
+                plugins: [
+                    {
+                        plugin: lessPlugin,
+                        config: {
+                            urlResolver: function(url, context, callback) {
+                                if (/^foo:/.test(url)) {
+                                    callback(null, url.substring(4).toUpperCase());
+                                } else {
+                                    context.defaultUrlResolver(url, context, callback);
+                                }
+                            }
+                        }
+                    }
+                ]
+            });
+
+        myLasso.lassoPage({
+                name: 'testPage',
+                dependencies: [
+                    nodePath.join(__dirname, 'fixtures/custom-url-resolver.less')
+                ]
+            },
+            function(err, lassoPageResult) {
+                if (err) {
+                    return done(err);
+                }
+
+                var actual = fs.readFileSync(nodePath.join(__dirname, 'static/testPage.css'), {encoding: 'utf8'});
+                var expected = fs.readFileSync(nodePath.join(__dirname, 'fixtures/custom-url-resolver.expected.css'), {encoding: 'utf8'});
+                fs.writeFileSync(nodePath.join(__dirname, 'fixtures/custom-url-resolver.actual.css'), actual, {encoding: 'utf8'});
+                expect(actual).to.equal(expected);
+                done();
+            });
+    });
+
 });

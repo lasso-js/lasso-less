@@ -1,16 +1,16 @@
 /*************************************/
 /* BEGIN "test/fixtures/images.less" */
 .foo {
-  background-image: url(ebay-logo.png);
+  background-image: url('ebay-logo.png');
 }
 .bar {
-  background-image: url(ebay-logo.png);
+  background-image: url('ebay-logo.png');
 }
 .baz {
-  background-image: url(http://baz.com/baz.png);
+  background-image: url('http://baz.com/baz.png');
 }
 .data-image {
-  background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIj8+Cjxzdmcgd2lkdGg9IjEiIGhlaWdodD0iMTAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgoKIDxnPgogIDx0aXRsZT5MYXllciAxPC90aXRsZT4KICA8ZyBpZD0ic3ZnXzMiPgogICA8ZyBpZD0ic3ZnXzEiPgogICAgPHJlY3QgeD0iLTEiIHk9Ii0xIiB3aWR0aD0iMyIgaGVpZ2h0PSIxMDIiIGlkPSJjYW52YXNfYmFja2dyb3VuZCIgZmlsbD0iI2ZmZiIvPgogICAgPGcgaWQ9ImNhbnZhc0dyaWQiIGRpc3BsYXk9Im5vbmUiPgogICAgIDxyZWN0IGlkPSJzdmdfMiIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgeD0iMCIgeT0iMCIgc3Ryb2tlLXdpZHRoPSIwIiBmaWxsPSJ1cmwoI2dyaWRwYXR0ZXJuKSIvPgogICAgPC9nPgogICA8L2c+CiAgPC9nPgogPC9nPgo8L3N2Zz4=);
+  background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIj8+Cjxzdmcgd2lkdGg9IjEiIGhlaWdodD0iMTAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgoKIDxnPgogIDx0aXRsZT5MYXllciAxPC90aXRsZT4KICA8ZyBpZD0ic3ZnXzMiPgogICA8ZyBpZD0ic3ZnXzEiPgogICAgPHJlY3QgeD0iLTEiIHk9Ii0xIiB3aWR0aD0iMyIgaGVpZ2h0PSIxMDIiIGlkPSJjYW52YXNfYmFja2dyb3VuZCIgZmlsbD0iI2ZmZiIvPgogICAgPGcgaWQ9ImNhbnZhc0dyaWQiIGRpc3BsYXk9Im5vbmUiPgogICAgIDxyZWN0IGlkPSJzdmdfMiIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgeD0iMCIgeT0iMCIgc3Ryb2tlLXdpZHRoPSIwIiBmaWxsPSJ1cmwoI2dyaWRwYXR0ZXJuKSIvPgogICAgPC9nPgogICA8L2c+CiAgPC9nPgogPC9nPgo8L3N2Zz4=');
 }
 /* END   "test/fixtures/images.less" */
 /*************************************/
