@@ -278,4 +278,70 @@ describe('lasso-less' , function() {
             });
     });
 
+    it('should handle imports with single quotes', function(done) {
+
+        var myLasso = lasso.create({
+                fingerprintsEnabled: false,
+                outputDir: nodePath.join(__dirname, 'static'),
+                bundlingEnabled: true,
+                plugins: [
+                    {
+                        plugin: lessPlugin,
+                        config: {
+
+                        }
+                    }
+                ]
+            });
+
+        myLasso.lassoPage({
+                name: 'testPage',
+                dependencies: [
+                    nodePath.join(__dirname, 'fixtures/import-single-quotes.less')
+                ]
+            },
+            function(err, lassoPageResult) {
+                if (err) {
+                    return done(err);
+                }
+
+                var actual = fs.readFileSync(nodePath.join(__dirname, 'static/testPage.css'), {encoding: 'utf8'});
+                expect(actual).to.contain('background-color: red');
+                done();
+            });
+    });
+
+    it('should handle imports with double quotes', function(done) {
+
+        var myLasso = lasso.create({
+                fingerprintsEnabled: false,
+                outputDir: nodePath.join(__dirname, 'static'),
+                bundlingEnabled: true,
+                plugins: [
+                    {
+                        plugin: lessPlugin,
+                        config: {
+
+                        }
+                    }
+                ]
+            });
+
+        myLasso.lassoPage({
+                name: 'testPage',
+                dependencies: [
+                    nodePath.join(__dirname, 'fixtures/import-double-quotes.less')
+                ]
+            },
+            function(err, lassoPageResult) {
+                if (err) {
+                    return done(err);
+                }
+
+                var actual = fs.readFileSync(nodePath.join(__dirname, 'static/testPage.css'), {encoding: 'utf8'});
+                expect(actual).to.contain('background-color: red');
+                done();
+            });
+    });
+
 });
