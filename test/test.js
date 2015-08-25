@@ -432,8 +432,7 @@ describe('lasso-less' , function() {
                     plugin: lessPlugin,
                     config: {
                         lessConfig: {
-                            strictMath: true,
-                            strictUnits: true
+                            strictMath: true
                         }
                     }
                 }
