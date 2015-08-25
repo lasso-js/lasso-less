@@ -200,3 +200,25 @@ The `context` argument will contain the following properties:
 - `pluginConfig` - The configuration passed to the `lasso-less` plugin when registered
 - `lasso` - The Lasso.js instance
 - `lassoContext` - The Lasso.js context object
+
+## Less Configuration
+
+You can pass less configuration options in `lessConfig` of the `config` object. These options will be passed 
+directly to less. For example:
+
+```js
+require('lasso').configure({
+    ...
+    plugins: [
+        {
+            plugin: 'lasso-less',
+            config: {
+                lessConfig: {
+                    strictMath: true,
+                    strictUnits: true
+                }
+            }
+        }
+    ]
+});
+```
