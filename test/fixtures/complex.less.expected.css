@@ -26,7 +26,7 @@
 /* ++ END   "test/fixtures/node_modules/installed/mixins.less" */
 /*=============================================================*/
 .foo {
-  background-image: url('ebay-logo.png');
+  background-image: url("ebay-logo.png");
   border-top: dotted 1px blue;
   border-bottom: solid 2px blue;
 }

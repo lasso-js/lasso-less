@@ -1,7 +1,7 @@
 /*******************************************/
 /* BEGIN "test/fixtures/dynamic-urls.less" */
 .dynamic-url {
-  background-image: url('ebay-logo.png');
+  background-image: url("ebay-logo.png");
 }
 /* END   "test/fixtures/dynamic-urls.less" */
 /*******************************************/
