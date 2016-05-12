@@ -11,7 +11,9 @@
     "url": "https://github.com/lasso-js/lasso-less.git"
   },
   "scripts": {
-    "test": "node_modules/.bin/mocha --ui bdd --reporter spec ./test && node_modules/.bin/jshint lib/**/*.js"
+    "test": "npm run mocha && npm run jshint",
+    "mocha": "mocha --ui bdd --reporter spec ./test",
+    "jshint": "jshint src/"
   },
   "author": "Patrick Steele-Idem <pnidem@gmail.com>",
   "contributors": [

@@ -1,13 +1,7 @@
 {
     "predef": [
-        
+
     ],
-
-    "globals": {
-        "define": true,
-        "require": true
-    },
-
     "node" : true,
     "es5" : false,
     "browser" : true,
@@ -35,7 +29,5 @@
     "latedef": true,
     "unused": "vars",
     "strict": false,
-    
-    /* Relaxing options: */
     "eqnull": true
 }
