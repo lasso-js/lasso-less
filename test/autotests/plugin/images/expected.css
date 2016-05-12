@@ -1,0 +1,21 @@
+/***************************************************/
+/* BEGIN "test/autotests/plugin/images/style.less" */
+.foo {
+  background-image: url("ebay-logo-d481eb85.png");
+}
+.bar {
+  background-image: url("ebay-logo-d481eb85.png");
+}
+.baz {
+  background-image: url("http://baz.com/baz.png");
+}
+.data-image {
+  background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIj8+Cjxzdmcgd2lkdGg9IjEiIGhlaWdodD0iMTAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgoKIDxnPgogIDx0aXRsZT5MYXllciAxPC90aXRsZT4KICA8ZyBpZD0ic3ZnXzMiPgogICA8ZyBpZD0ic3ZnXzEiPgogICAgPHJlY3QgeD0iLTEiIHk9Ii0xIiB3aWR0aD0iMyIgaGVpZ2h0PSIxMDIiIGlkPSJjYW52YXNfYmFja2dyb3VuZCIgZmlsbD0iI2ZmZiIvPgogICAgPGcgaWQ9ImNhbnZhc0dyaWQiIGRpc3BsYXk9Im5vbmUiPgogICAgIDxyZWN0IGlkPSJzdmdfMiIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgeD0iMCIgeT0iMCIgc3Ryb2tlLXdpZHRoPSIwIiBmaWxsPSJ1cmwoI2dyaWRwYXR0ZXJuKSIvPgogICAgPC9nPgogICA8L2c+CiAgPC9nPgogPC9nPgo8L3N2Zz4=");
+}
+.data-image-utf8 {
+  width: 10px;
+  height: 10px;
+  background-image: url("data:image/svg+xml;utf8,foo()bar()");
+}
+/* END   "test/autotests/plugin/images/style.less" */
+/***************************************************/

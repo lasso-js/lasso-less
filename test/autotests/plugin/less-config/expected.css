@@ -1,0 +1,7 @@
+/********************************************************/
+/* BEGIN "test/autotests/plugin/less-config/style.less" */
+.foo {
+  width: calc(100% - 50px);
+}
+/* END   "test/autotests/plugin/less-config/style.less" */
+/********************************************************/

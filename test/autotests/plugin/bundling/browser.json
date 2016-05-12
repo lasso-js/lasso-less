@@ -1,0 +1,16 @@
+{
+    "dependencies": [
+        "less-import: variables.less",
+        "main.less",
+        "./baz/browser.json"
+    ],
+
+    "async": {
+        "foo": [
+            "./foo/browser.json"
+        ],
+        "bar": [
+            "./bar/browser.json"
+        ]
+    }
+}

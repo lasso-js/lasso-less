@@ -1,0 +1,33 @@
+/******************************************************************/
+/* BEGIN "test/autotests/plugin/bundling-disabled/variables.less" */
+/* END   "test/autotests/plugin/bundling-disabled/variables.less" */
+/******************************************************************/
+/****************************************************************/
+/* BEGIN "test/autotests/plugin/bundling-disabled/foo/foo.less" */
+/* @import "require:installed/mixins.less"; */
+/*--------------------------------------------------------------------------------------*/
+/* + BEGIN "test/autotests/plugin/bundling-disabled/node_modules/installed/mixins.less" */
+.bordered {
+  border-top: dotted 1px purple;
+  border-bottom: solid 2px purple;
+}
+/* + END   "test/autotests/plugin/bundling-disabled/node_modules/installed/mixins.less" */
+/*--------------------------------------------------------------------------------------*/
+.foo {
+  color: green;
+  border-top: dotted 1px purple;
+  border-bottom: solid 2px purple;
+}
+/* END   "test/autotests/plugin/bundling-disabled/foo/foo.less" */
+/****************************************************************/
+/****************************************************************/
+/* BEGIN "test/autotests/plugin/bundling-disabled/bar/bar.less" */
+/* @import "require:installed/mixins.less"; (skipped, already imported) */
+.bar {
+  color: blue;
+  border-top: dotted 1px purple;
+  border-bottom: solid 2px purple;
+}
+/* END   "test/autotests/plugin/bundling-disabled/bar/bar.less" */
+/****************************************************************/
+

@@ -1,7 +1,0 @@
-/******************************************/
-/* BEGIN "test/fixtures/less-config.less" */
-.foo {
-  width: calc(100% - 50px);
-}
-/* END   "test/fixtures/less-config.less" */
-/******************************************/

@@ -12,28 +12,10 @@
         "after",
         "waits",
         "waitsFor",
-        "runs",
-        "raptor",
-        "$rset",
-        "$radd",
-        "$rget",
-        "$renv",
-        "$rwidgets",
-        "$",
-        "dust",
-        "__rhinoHelpers",
-        "Packages",
-        "JavaAdapter",
-        "unescape"
+        "runs"
     ],
-
-    "globals": {
-        "define": true,
-        "require": true
-    },
-
     "node" : true,
-    "es5" : false,
+    "esnext": true,
     "browser" : true,
     "boss" : false,
     "curly": false,
@@ -58,7 +40,6 @@
     "eqeqeq": false,
     "latedef": true,
     "unused": "vars",
-
-    /* Relaxing options: */
-    "eqnull": true
+    "eqnull": true,
+    "expr": true
 }

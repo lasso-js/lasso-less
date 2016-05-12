@@ -1,0 +1,5 @@
+{
+    "dependencies": [
+        "require: installed/style.less"
+    ]
+}

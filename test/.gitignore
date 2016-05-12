@@ -1,2 +1,4 @@
 /static
-*.actual.css
+actual.*
+/build
+actual-*

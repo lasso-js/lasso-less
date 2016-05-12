@@ -1,0 +1,10 @@
+/****************************************************************/
+/* BEGIN "test/autotests/plugin/custom-url-resolver/style.less" */
+.absolute-url {
+  background-image: url("http://foo");
+}
+.custom-url {
+  background-image: url("BAR");
+}
+/* END   "test/autotests/plugin/custom-url-resolver/style.less" */
+/****************************************************************/

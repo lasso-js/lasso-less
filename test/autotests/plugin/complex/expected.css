@@ -1,0 +1,47 @@
+/******************************************************/
+/* BEGIN "test/autotests/plugin/complex/complex.less" */
+/* @import "variables.less"; */
+/*--------------------------------------------------------*/
+/* + BEGIN "test/autotests/plugin/complex/variables.less" */
+/* + END   "test/autotests/plugin/complex/variables.less" */
+/*--------------------------------------------------------*/
+/* @import "foo/foo.less"; */
+/*------------------------------------------------------*/
+/* + BEGIN "test/autotests/plugin/complex/foo/foo.less" */
+/* @import "bar/bar.less"; */
+/*===========================================================*/
+/* ++ BEGIN "test/autotests/plugin/complex/foo/bar/bar.less" */
+.bar {
+  font-size: 1em;
+}
+/* ++ END   "test/autotests/plugin/complex/foo/bar/bar.less" */
+/*===========================================================*/
+/* @import "require: installed/mixins.less"; */
+/*=============================================================================*/
+/* ++ BEGIN "test/autotests/plugin/complex/node_modules/installed/mixins.less" */
+.bordered {
+  border-top: dotted 1px blue;
+  border-bottom: solid 2px blue;
+}
+/* ++ END   "test/autotests/plugin/complex/node_modules/installed/mixins.less" */
+/*=============================================================================*/
+.foo {
+  background-image: url("ebay-logo-d481eb85.png");
+  border-top: dotted 1px blue;
+  border-bottom: solid 2px blue;
+}
+/* + END   "test/autotests/plugin/complex/foo/foo.less" */
+/*------------------------------------------------------*/
+/* @import "require: installed/mixins.less"; (skipped, already imported) */
+#header {
+  color: green;
+}
+body {
+  color: red;
+}
+.container {
+  border-top: dotted 1px blue;
+  border-bottom: solid 2px blue;
+}
+/* END   "test/autotests/plugin/complex/complex.less" */
+/******************************************************/

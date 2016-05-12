@@ -39,9 +39,9 @@
     "mocha": "^1.21.4",
     "lasso": "^1.8.4"
   },
-  "license": "Apache License v2.0",
+  "license": "Apache-2.0",
   "bin": {},
-  "main": "./lib/index.js",
+  "main": "./src/index.js",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },

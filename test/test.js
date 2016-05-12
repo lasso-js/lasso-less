@@ -1,461 +1,92 @@
 'use strict';
-var chai = require('chai');
-chai.config.includeStack = true;
-require('chai').should();
-var expect = require('chai').expect;
 var nodePath = require('path');
+require('chai').config.includeStack = true;
+
+var rmdirRecursive = require('./util').rmdirRecursive;
+var buildDir = nodePath.join(__dirname, 'build');
+
+var lasso = require('lasso');
+var lassoLessPlugin = require('../');
 var fs = require('fs');
 
-var lessPlugin = require('../'); // Load this module just to make sure it works
-var lasso = require('lasso');
+describe('lasso-less/plugin' , function() {
+    require('./autotest').scanDir(
+        nodePath.join(__dirname, 'autotests/plugin'),
+        function (dir, helpers, done) {
 
-require('raptor-logging').configureLoggers({
-    'lasso-less': 'WARN'
-});
+            var main = require(nodePath.join(dir, 'test.js'));
+            var testName = nodePath.basename(dir);
+            var pageName = testName;
 
-describe('lasso-less' , function() {
-
-    beforeEach(function(done) {
-        for (var k in require.cache) {
-            if (require.cache.hasOwnProperty(k)) {
-                delete require.cache[k];
+            var lassoConfig = main.getLassoConfig && main.getLassoConfig(lassoLessPlugin);
+            if (!lassoConfig) {
+                lassoConfig = {
+                    fingerprintsEnabled: true,
+                    urlPrefix: '/static',
+                    plugins: [
+                        {
+                            plugin: lassoLessPlugin,
+                            config: {}
+                        }
+                    ]
+                };
             }
-        }
-        done();
-    });
 
-    it('should render a complex less dependency', function(done) {
+            if (!lassoConfig.outputDir) {
+                lassoConfig.outputDir = nodePath.join(buildDir, pageName);
+            }
 
-        var myLasso = lasso.create({
-                fingerprintsEnabled: false,
-                outputDir: nodePath.join(__dirname, 'static'),
-                bundlingEnabled: true,
-                plugins: [
-                    {
-                        plugin: lessPlugin,
-                        config: {
+            rmdirRecursive(lassoConfig.outputDir);
 
-                        }
-                    }
-                ]
-            });
+            var myLasso = lasso.create(lassoConfig, dir);
 
-        myLasso.lassoPage({
-                name: 'testPage',
-                dependencies: [
-                    nodePath.join(__dirname, 'fixtures/complex.less')
-                ]
-            },
-            function(err, lassoPageResult) {
-                if (err) {
-                    return done(err);
-                }
+            var inputs;
 
-                var actual = fs.readFileSync(nodePath.join(__dirname, 'static/testPage.css'), {encoding: 'utf8'});
-                var expected = fs.readFileSync(nodePath.join(__dirname, 'fixtures/complex.less.expected.css'), {encoding: 'utf8'});
-                fs.writeFileSync(nodePath.join(__dirname, 'fixtures/complex.less.actual.css'), actual, {encoding: 'utf8'});
-                expect(actual).to.equal(expected);
-                done();
-            });
-    });
+            let lassoOptions = main.getLassoOptions(dir) || {};
 
-    it('should render a node module less dependency', function(done) {
 
-        var myLasso = lasso.create({
-                fingerprintsEnabled: false,
-                outputDir: nodePath.join(__dirname, 'static'),
-                bundlingEnabled: true,
-                plugins: [
-                    {
-                        plugin: lessPlugin,
-                        config: {
+            let check = main.check;
 
-                        }
-                    }
-                ]
-            });
-
-        myLasso.lassoPage({
-                name: 'testPage',
-                dependencies: [
-                    "require: installed/style.less"
-                ],
-                from: nodePath.join(__dirname, 'fixtures')
-            },
-            function(err, lassoPageResult) {
-                if (err) {
-                    return done(err);
-                }
-
-                var actual = fs.readFileSync(nodePath.join(__dirname, 'static/testPage.css'), {encoding: 'utf8'});
-                fs.writeFileSync(nodePath.join(__dirname, 'fixtures/installed.less.actual.css'), actual, {encoding: 'utf8'});
-                var expected = fs.readFileSync(nodePath.join(__dirname, 'fixtures/installed.less.expected.css'), {encoding: 'utf8'});
-                expect(actual).to.equal(expected);
-                done();
-            });
-
-    });
-
-    it('should handling bundling correctly', function(done) {
-
-        var myLasso = lasso.create({
-                fingerprintsEnabled: false,
-                outputDir: nodePath.join(__dirname, 'static'),
-                bundlingEnabled: true,
-                plugins: [
-                    {
-                        plugin: lessPlugin,
-                        config: {
-
-                        }
-                    }
-                ],
-                bundles: [
-                    {
-                        name: 'baz',
-                        dependencies: [
-                            nodePath.join(__dirname, 'fixtures/bundling/baz/browser.json')
-                        ]
-                    }
-                ]
-            });
-
-        myLasso.lassoPage({
-                name: 'testPage',
-                dependencies: [
-                    nodePath.join(__dirname, 'fixtures/bundling/browser.json')
-                ],
-                from: nodePath.join(__dirname, 'fixtures')
-            },
-            function(err, lassoPageResult) {
-                if (err) {
-                    return done(err);
-                }
-
-                var outputFiles = lassoPageResult.getCSSFiles();
-                expect(outputFiles.length).to.equal(3);
-
-
-                var actualPageCSS = fs.readFileSync(nodePath.join(__dirname, 'static/testPage.css'), {encoding: 'utf8'});
-                var actualAsyncCSS = fs.readFileSync(nodePath.join(__dirname, 'static/testPage-async.css'), {encoding: 'utf8'});
-                var actualBundleCSS = fs.readFileSync(nodePath.join(__dirname, 'static/baz.css'), {encoding: 'utf8'});
-
-                fs.writeFileSync(nodePath.join(__dirname, 'fixtures/bundling.less.testPage.actual.css'), actualPageCSS, {encoding: 'utf8'});
-                fs.writeFileSync(nodePath.join(__dirname, 'fixtures/bundling.less.testPage-async.actual.css'), actualAsyncCSS, {encoding: 'utf8'});
-                fs.writeFileSync(nodePath.join(__dirname, 'fixtures/bundling.less.baz.actual.css'), actualBundleCSS, {encoding: 'utf8'});
-
-
-                var expectedPageCSS = fs.readFileSync(nodePath.join(__dirname, 'fixtures/bundling.less.testPage.expected.css'), {encoding: 'utf8'});
-                var expectedAsyncCSS = fs.readFileSync(nodePath.join(__dirname, 'fixtures/bundling.less.testPage-async.expected.css'), {encoding: 'utf8'});
-                var expectedBundleCSS = fs.readFileSync(nodePath.join(__dirname, 'fixtures/bundling.less.baz.expected.css'), {encoding: 'utf8'});
-
-                expect(actualPageCSS).to.equal(expectedPageCSS);
-                expect(actualAsyncCSS).to.equal(expectedAsyncCSS);
-                expect(actualBundleCSS).to.equal(expectedBundleCSS);
-
-                done();
-            });
-
-    });
-
-    it('should work correctly when bundling is disabled', function(done) {
-
-        var myLasso = lasso.create({
-                fingerprintsEnabled: false,
-                outputDir: nodePath.join(__dirname, 'static'),
-                bundlingEnabled: false,
-                plugins: [
-                    {
-                        plugin: lessPlugin,
-                        config: {
-
-                        }
-                    }
-                ],
-                bundles: [
-                    {
-                        name: 'baz',
-                        dependencies: [
-                            nodePath.join(__dirname, 'fixtures/bundling/baz/browser.json')
-                        ]
-                    }
-                ]
-            });
-
-        myLasso.lassoPage({
-                name: 'testPage',
-                dependencies: [
-                    nodePath.join(__dirname, 'fixtures/bundling/browser.json')
-                ],
-                from: nodePath.join(__dirname, 'fixtures')
-            },
-            function(err, lassoPageResult) {
-                if (err) {
-                    return done(err);
-                }
-
-                var outputFiles = lassoPageResult.getCSSFiles();
-                expect(outputFiles.length).to.equal(2);
-
-
-                var actualPageCSS = fs.readFileSync(nodePath.join(__dirname, 'static/testPage.css'), {encoding: 'utf8'});
-                var actualAsyncCSS = fs.readFileSync(nodePath.join(__dirname, 'static/testPage-async.css'), {encoding: 'utf8'});
-
-                fs.writeFileSync(nodePath.join(__dirname, 'fixtures/unbundled.less.testPage.actual.css'), actualPageCSS, {encoding: 'utf8'});
-                fs.writeFileSync(nodePath.join(__dirname, 'fixtures/unbundled.less.testPage-async.actual.css'), actualAsyncCSS, {encoding: 'utf8'});
-
-                var expectedPageCSS = fs.readFileSync(nodePath.join(__dirname, 'fixtures/unbundled.less.testPage.expected.css'), {encoding: 'utf8'});
-                var expectedAsyncCSS = fs.readFileSync(nodePath.join(__dirname, 'fixtures/unbundled.less.testPage-async.expected.css'), {encoding: 'utf8'});
-
-                expect(actualPageCSS).to.equal(expectedPageCSS);
-                expect(actualAsyncCSS).to.equal(expectedAsyncCSS);
-
-                done();
-            });
-
-    });
-
-    it('should handle errors', function(done) {
-
-        var myLasso = lasso.create({
-                fingerprintsEnabled: false,
-                outputDir: nodePath.join(__dirname, 'static'),
-                bundlingEnabled: true,
-                plugins: [
-                    {
-                        plugin: lessPlugin,
-                        config: {
-
-                        }
-                    }
-                ]
-            });
-
-        myLasso.lassoPage({
-                name: 'testPage',
-                dependencies: [
-                    nodePath.join(__dirname, 'fixtures/error.less')
-                ]
-            },
-            function(err, lassoPageResult) {
-                expect(!!err).to.equal(true);
-                done();
-            });
-    });
-
-    it('should render a less dependency with images', function(done) {
-
-        var myLasso = lasso.create({
-                fingerprintsEnabled: false,
-                outputDir: nodePath.join(__dirname, 'static'),
-                bundlingEnabled: true,
-                plugins: [
-                    {
-                        plugin: lessPlugin,
-                        config: {
-
-                        }
-                    }
-                ]
-            });
-
-        myLasso.lassoPage({
-                name: 'testPage',
-                dependencies: [
-                    nodePath.join(__dirname, 'fixtures/images.less')
-                ]
-            },
-            function(err, lassoPageResult) {
-                if (err) {
-                    return done(err);
-                }
-
-                var actual = fs.readFileSync(nodePath.join(__dirname, 'static/testPage.css'), {encoding: 'utf8'});
-                var expected = fs.readFileSync(nodePath.join(__dirname, 'fixtures/images.less.expected.css'), {encoding: 'utf8'});
-                fs.writeFileSync(nodePath.join(__dirname, 'fixtures/images.less.actual.css'), actual, {encoding: 'utf8'});
-                expect(actual).to.equal(expected);
-                done();
-            });
-    });
-
-    it('should handle imports with single quotes', function(done) {
-
-        var myLasso = lasso.create({
-                fingerprintsEnabled: false,
-                outputDir: nodePath.join(__dirname, 'static'),
-                bundlingEnabled: true,
-                plugins: [
-                    {
-                        plugin: lessPlugin,
-                        config: {
-
-                        }
-                    }
-                ]
-            });
-
-        myLasso.lassoPage({
-                name: 'testPage',
-                dependencies: [
-                    nodePath.join(__dirname, 'fixtures/import-single-quotes.less')
-                ]
-            },
-            function(err, lassoPageResult) {
-                if (err) {
-                    return done(err);
-                }
-
-                var actual = fs.readFileSync(nodePath.join(__dirname, 'static/testPage.css'), {encoding: 'utf8'});
-                expect(actual).to.contain('background-color: red');
-                done();
-            });
-    });
-
-    it('should handle imports with double quotes', function(done) {
-
-        var myLasso = lasso.create({
-                fingerprintsEnabled: false,
-                outputDir: nodePath.join(__dirname, 'static'),
-                bundlingEnabled: true,
-                plugins: [
-                    {
-                        plugin: lessPlugin,
-                        config: {
-
-                        }
-                    }
-                ]
-            });
-
-        myLasso.lassoPage({
-                name: 'testPage',
-                dependencies: [
-                    nodePath.join(__dirname, 'fixtures/import-double-quotes.less')
-                ]
-            },
-            function(err, lassoPageResult) {
-                if (err) {
-                    return done(err);
-                }
-
-                var actual = fs.readFileSync(nodePath.join(__dirname, 'static/testPage.css'), {encoding: 'utf8'});
-                expect(actual).to.contain('background-color: red');
-                done();
-            });
-    });
-
-    it('should resolve dynamic URLs', function(done) {
-
-        var myLasso = lasso.create({
-                fingerprintsEnabled: false,
-                outputDir: nodePath.join(__dirname, 'static'),
-                bundlingEnabled: true,
-                plugins: [
-                    {
-                        plugin: lessPlugin,
-                        config: {
-
-                        }
-                    }
-                ]
-            });
-
-        myLasso.lassoPage({
-                name: 'testPage',
-                dependencies: [
-                    nodePath.join(__dirname, 'fixtures/dynamic-urls.less')
-                ]
-            },
-            function(err, lassoPageResult) {
-                if (err) {
-                    return done(err);
-                }
-
-                var actual = fs.readFileSync(nodePath.join(__dirname, 'static/testPage.css'), {encoding: 'utf8'});
-                var expected = fs.readFileSync(nodePath.join(__dirname, 'fixtures/dynamic-urls.less.expected.css'), {encoding: 'utf8'});
-                fs.writeFileSync(nodePath.join(__dirname, 'fixtures/dynamic-urls.less.actual.css'), actual, {encoding: 'utf8'});
-                expect(actual).to.equal(expected);
-                done();
-            });
-    });
-
-    it('should support custom URL resolvers', function(done) {
-
-        var myLasso = lasso.create({
-                fingerprintsEnabled: false,
-                outputDir: nodePath.join(__dirname, 'static'),
-                bundlingEnabled: true,
-                plugins: [
-                    {
-                        plugin: lessPlugin,
-                        config: {
-                            urlResolver: function(url, context, callback) {
-                                if (/^foo:/.test(url)) {
-                                    callback(null, url.substring(4).toUpperCase());
-                                } else {
-                                    context.defaultUrlResolver(url, context, callback);
-                                }
-                            }
-                        }
-                    }
-                ]
-            });
-
-        myLasso.lassoPage({
-                name: 'testPage',
-                dependencies: [
-                    nodePath.join(__dirname, 'fixtures/custom-url-resolver.less')
-                ]
-            },
-            function(err, lassoPageResult) {
-                if (err) {
-                    return done(err);
-                }
-
-                var actual = fs.readFileSync(nodePath.join(__dirname, 'static/testPage.css'), {encoding: 'utf8'});
-                var expected = fs.readFileSync(nodePath.join(__dirname, 'fixtures/custom-url-resolver.expected.css'), {encoding: 'utf8'});
-                fs.writeFileSync(nodePath.join(__dirname, 'fixtures/custom-url-resolver.actual.css'), actual, {encoding: 'utf8'});
-                expect(actual).to.equal(expected);
-                done();
-            });
-    });
-
-
-    it('should support less config', function(done) {
-
-        var myLasso = lasso.create({
-            fingerprintsEnabled: false,
-            outputDir: nodePath.join(__dirname, 'static'),
-            bundlingEnabled: true,
-            plugins: [
+            inputs = [
                 {
-                    plugin: lessPlugin,
-                    config: {
-                        lessConfig: {
-                            strictMath: true
-                        }
+                    lassoOptions,
+                    check
+                }
+            ];
+
+            var checkError = main.checkError;
+
+            if (!lassoOptions.pageName) {
+                lassoOptions.pageName = pageName;
+            }
+
+            if (!lassoOptions.from) {
+                lassoOptions.from = dir;
+            }
+
+            myLasso.lassoPage(lassoOptions)
+                .then((lassoPageResult) => {
+                    if (checkError) {
+                        return done('Error expected');
                     }
-                }
-            ]
+
+                    if (main.check) {
+                        main.check(lassoPageResult, helpers);
+                    } else {
+                        var css = fs.readFileSync(lassoPageResult.getCSSFiles()[0], { encoding: 'utf8' });
+                        helpers.compare(css, '.css');
+                    }
+
+                    lasso.flushAllCaches(done);
+                })
+                .catch((err) => {
+                    if (checkError) {
+                        checkError(err);
+                        done();
+                    } else {
+                        throw err;
+                    }
+                })
+                .catch(done);
         });
-
-        myLasso.lassoPage({
-                name: 'testPage',
-                dependencies: [
-                    nodePath.join(__dirname, 'fixtures/less-config.less')
-                ]
-            },
-            function(err, lassoPageResult) {
-                if (err) {
-                    return done(err);
-                }
-
-                var actual = fs.readFileSync(nodePath.join(__dirname, 'static/testPage.css'), {encoding: 'utf8'});
-                var expected = fs.readFileSync(nodePath.join(__dirname, 'fixtures/less-config.expected.css'), {encoding: 'utf8'});
-                fs.writeFileSync(nodePath.join(__dirname, 'fixtures/less-config.actual.css'), actual, {encoding: 'utf8'});
-                expect(actual).to.equal(expected);
-                done();
-            });
-    });
-
 });
