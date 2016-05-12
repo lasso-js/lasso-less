@@ -1,0 +1,23 @@
+/**************************************************************/
+/* BEGIN "test/autotests/plugin/include-css-files/before.css" */
+.before {
+  color: green;
+}
+/* END   "test/autotests/plugin/include-css-files/before.css" */
+/**************************************************************/
+/**************************************************************/
+/* BEGIN "test/autotests/plugin/include-css-files/style.less" */
+.less {
+  color: red;
+}
+/* END   "test/autotests/plugin/include-css-files/style.less" */
+/**************************************************************/
+/*************************************************************/
+/* BEGIN "test/autotests/plugin/include-css-files/after.css" */
+.after {
+  color: blue;
+}
+/* END   "test/autotests/plugin/include-css-files/after.css" */
+/*************************************************************/
+
+

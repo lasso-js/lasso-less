@@ -23,6 +23,21 @@ require('lasso').configure({
 });
 ```
 
+Configuration can also be passed to the `lasso-less` plugin if needed:
+
+```javascript
+require('lasso').configure({
+    ...
+    plugins: [
+        {
+            plugin: 'lasso-less',
+            config: { /* see below for config options */ }
+        },
+        ...
+    ]
+});
+```
+
 # Basic Usage
 
 **browser.json**
@@ -201,19 +216,19 @@ The `context` argument will contain the following properties:
 - `lasso` - The Lasso.js instance
 - `lassoContext` - The Lasso.js context object
 
-## Less Configuration
+## Configuration
 
-You can pass less configuration options in `lessConfig` of the `config` object. These options will be passed 
-directly to less. For example:
+### Example config
 
-```js
+```javascript
 require('lasso').configure({
     ...
     plugins: [
         {
             plugin: 'lasso-less',
             config: {
-                lessConfig: {
+                extensions: ['less', 'css'],
+                lessConfig: { // P
                     strictMath: true,
                     strictUnits: true
                 }
@@ -222,3 +237,8 @@ require('lasso').configure({
     ]
 });
 ```
+
+### Configuration properties
+
+- ___lessConfig___ - Passthrough config options to the Less render (object)
+- ___extensions___ - An array of file extensions to process as Less files (array, defaults to `['less']`)

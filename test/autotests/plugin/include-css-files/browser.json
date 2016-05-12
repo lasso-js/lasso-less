@@ -1,0 +1,7 @@
+{
+    "dependencies": [
+        "./before.css",
+        "./style.less",
+        "./after.css"
+    ]
+}
