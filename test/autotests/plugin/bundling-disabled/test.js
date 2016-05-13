@@ -48,6 +48,6 @@ exports.check = function(lassoPageResult, helpers) {
         return `(not found: ${basename})`;
     }
 
-    helpers.compare(readFile('less-bundling-disabled.css'), '-page.css');
-    helpers.compare(readFile('less-bundling-disabled-async.css'), '-async.css');
+    helpers.compare(readFile('lasso-less-bundling-disabled.css'), '-page.css');
+    helpers.compare(readFile('lasso-less-bundling-disabled-async.css'), '-async.css');
 };

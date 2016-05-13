@@ -1,7 +1,6 @@
-var expect = require('chai').expect;
-
 exports.getLassoConfig = function(lassoLessPlugin) {
     return {
+        bundlingEnabled: true,
         fingerprintsEnabled: true,
         urlPrefix: '/static',
         plugins: [

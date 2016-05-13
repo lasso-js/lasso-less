@@ -1,0 +1,23 @@
+/*******************************************************************************/
+/* BEGIN "test/autotests/plugin/include-css-files-bundling-enabled/before.css" */
+.before {
+  color: green;
+}
+/* END   "test/autotests/plugin/include-css-files-bundling-enabled/before.css" */
+/*******************************************************************************/
+/*******************************************************************************/
+/* BEGIN "test/autotests/plugin/include-css-files-bundling-enabled/style.less" */
+.less {
+  color: red;
+}
+/* END   "test/autotests/plugin/include-css-files-bundling-enabled/style.less" */
+/*******************************************************************************/
+/******************************************************************************/
+/* BEGIN "test/autotests/plugin/include-css-files-bundling-enabled/after.css" */
+.after {
+  color: blue;
+}
+/* END   "test/autotests/plugin/include-css-files-bundling-enabled/after.css" */
+/******************************************************************************/
+
+

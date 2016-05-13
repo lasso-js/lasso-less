@@ -141,6 +141,10 @@ module.exports = function create(config, lasso) {
         // Since we are resolving the resource URLs in the CSS files, we set a flag
         // to tell the lasso-resolve-css-urls to not bother transforming the
         // CSS that this dependency produces
-        resolveCssUrlsEnabled: false
+        resolveCssUrlsEnabled: false,
+
+        getUnbundledTarget: function() {
+            return 'lasso-less';
+        }
     };
 };
