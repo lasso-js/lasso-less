@@ -102,7 +102,7 @@ ParsedLess.prototype = {
 
             if (replacement != null) {
                 if (part.type === 'url') {
-                    replacement = "'" + replacement.replace(/[']|\n|/g, encodeSpecialURLChar) + "'";
+                    replacement = "'" + replacement.replace(/['%]|\n|/g, encodeSpecialURLChar) + "'";
                 }
                 code = code.substring(0, start) + replacement + code.substring(end);
             }

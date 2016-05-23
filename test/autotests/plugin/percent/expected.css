@@ -1,0 +1,7 @@
+/****************************************************/
+/* BEGIN "test/autotests/plugin/percent/style.less" */
+.foo {
+  background-image: url('data:image/svg+xml;utf8,%25foo%25');
+}
+/* END   "test/autotests/plugin/percent/style.less" */
+/****************************************************/
