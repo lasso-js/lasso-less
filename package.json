@@ -38,8 +38,9 @@
   "devDependencies": {
     "chai": "^1.9.1",
     "jshint": "^2.5.5",
-    "mocha": "^1.21.4",
-    "lasso": "^1.8.4"
+    "lasso": "^1.8.4",
+    "lesshat": "^3.0.2",
+    "mocha": "^1.21.4"
   },
   "license": "Apache-2.0",
   "bin": {},

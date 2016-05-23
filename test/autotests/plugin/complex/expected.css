@@ -26,7 +26,7 @@
 /* ++ END   "test/autotests/plugin/complex/node_modules/installed/mixins.less" */
 /*=============================================================================*/
 .foo {
-  background-image: url("ebay-logo-d481eb85.png");
+  background-image: url('ebay-logo-d481eb85.png');
   border-top: dotted 1px blue;
   border-bottom: solid 2px blue;
 }

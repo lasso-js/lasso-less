@@ -1,7 +1,7 @@
 /*******************************************************/
 /* BEGIN "test/autotests/plugin/inline-svg/style.less" */
 .foo {
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 11 16' enable-background='new 0 0 11 16' xml:space='preserve'><path viewBox='-6 -8 11 16' x='-6' y='-8' transform='matrix(1 0 0 -1 6 7.9999)' overflow='visible' fill-rule='evenodd' clip-rule='evenodd' fill='#565656' d='M4.8,6.2C5,6.4,5,6.6,4.8,6.8L3.7,7.9C3.5,8,3.2,8,3.1,7.9l-7.9-7.6C-5,0.1-5-0.1-4.9-0.3l8-7.6C3.3-8,3.5-8,3.7-7.9l1.2,1.1C5-6.6,5-6.4,4.9-6.2L-1.6,0L4.8,6.2z'/></svg>");
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns=%27http://www.w3.org/2000/svg%27 xmlns:xlink=%27http://www.w3.org/1999/xlink%27 x=%270px%27 y=%270px%27 viewBox=%270 0 11 16%27 enable-background=%27new 0 0 11 16%27 xml:space=%27preserve%27><path viewBox=%27-6 -8 11 16%27 x=%27-6%27 y=%27-8%27 transform=%27matrix(1 0 0 -1 6 7.9999)%27 overflow=%27visible%27 fill-rule=%27evenodd%27 clip-rule=%27evenodd%27 fill=%27#565656%27 d=%27M4.8,6.2C5,6.4,5,6.6,4.8,6.8L3.7,7.9C3.5,8,3.2,8,3.1,7.9l-7.9-7.6C-5,0.1-5-0.1-4.9-0.3l8-7.6C3.3-8,3.5-8,3.7-7.9l1.2,1.1C5-6.6,5-6.4,4.9-6.2L-1.6,0L4.8,6.2z%27/></svg>');
 }
 /* END   "test/autotests/plugin/inline-svg/style.less" */
 /*******************************************************/

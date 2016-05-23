@@ -3,6 +3,14 @@ var nodePath = require('path');
 var requireRegExp = /^require\s*:\s*(.+)$/;
 var resolveFrom = require('resolve-from');
 
+function encodeSpecialURLChar(c) {
+    if (c === "'") {
+        return '%27';
+    } else {
+        return encodeURI(c);
+    }
+}
+
 function Part(parsedLess, type, text, start, end) {
     this.parsedLess = parsedLess;
     this.type = type;
@@ -94,7 +102,7 @@ ParsedLess.prototype = {
 
             if (replacement != null) {
                 if (part.type === 'url') {
-                    replacement = JSON.stringify(replacement);
+                    replacement = "'" + replacement.replace(/[']|\n|/g, encodeSpecialURLChar) + "'";
                 }
                 code = code.substring(0, start) + replacement + code.substring(end);
             }
