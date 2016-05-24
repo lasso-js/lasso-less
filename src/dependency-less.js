@@ -81,17 +81,23 @@ module.exports = function create(config, lasso) {
                     return callback(err);
                 }
 
+                var lessCode = result.lessCode;
+
                 function renderCallback(err, output) {
                     if (err) {
-                        if (err.line !== null) {
-                            err = new Error('Error compiling Less file (' +
-                                err.filename +
-                                ':' +
-                                err.line +
-                                ':' +
-                                err.column +
-                                ') - ' +
-                                err.message);
+                        if (err.line !== null &&  err.column !== null) {
+                            var errorIndex = err.index;
+                            var errorMessage = '\n' + err.message;
+                            var lines = lessCode.split('\n');
+                            var badLine = lines[err.line - 1];
+
+                            errorMessage += ':\n' + badLine + '\n'+ new Array(err.column+1).join(" ") + '^';
+
+                            var wrappedError = new Error(errorMessage);
+                            wrappedError.index = errorIndex;
+                            wrappedError.src = lessCode;
+                            wrappedError.code = 'LESS_SYNTAX_ERROR';
+                            err = wrappedError;
                         }
                         errorCallback(err);
                         return;
@@ -116,8 +122,6 @@ module.exports = function create(config, lasso) {
                         callback(null, css);
                     }
                 }
-
-                var lessCode = result.lessCode;
 
                 var parseConfig = {
                     filename: 'lasso.less',

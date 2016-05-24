@@ -22,7 +22,6 @@ exports.getLassoOptions = function() {
 };
 
 exports.checkError = function(err) {
-    var errString = err.toString();
-    expect(errString).to.contain('variable @doesNotExist is undefined');
-    expect(errString).to.contain('\n    font-size: @doesNotExist;\n               ^');
+    expect(err.message).to.contain("variable @WRONG is undefined");
+    expect(err.message).to.contain("background-color: @WRONG;\n                      ^");
 };

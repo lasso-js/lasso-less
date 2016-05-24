@@ -22,7 +22,6 @@ exports.getLassoOptions = function() {
 };
 
 exports.checkError = function(err) {
-    var errString = err.toString();
-    expect(errString).to.contain('variable @doesNotExist is undefined');
-    expect(errString).to.contain('\n    font-size: @doesNotExist;\n               ^');
+    expect(err.message).to.contain("missing semi-colon or unrecognised media features on import");
+    expect(err.message).to.contain("\n@import \"import2.less;\n^");
 };

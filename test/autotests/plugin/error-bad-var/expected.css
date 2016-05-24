@@ -1,0 +1,12 @@
+/*****************************************************************/
+/* BEGIN "test/autotests/plugin/import-single-quotes/style.less" */
+/* @import "./variables.less"; */
+/*---------------------------------------------------------------------*/
+/* + BEGIN "test/autotests/plugin/import-single-quotes/variables.less" */
+/* + END   "test/autotests/plugin/import-single-quotes/variables.less" */
+/*---------------------------------------------------------------------*/
+.foo {
+  background-color: red;
+}
+/* END   "test/autotests/plugin/import-single-quotes/style.less" */
+/*****************************************************************/
