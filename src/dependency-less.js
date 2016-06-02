@@ -57,7 +57,7 @@ module.exports = function create(config, lasso) {
         },
 
         getDir: function() {
-            return nodePath.dirname(this.path);
+            return this.path ? nodePath.dirname(this.path) : undefined;
         },
 
         read: function(lassoContext, callback) {
