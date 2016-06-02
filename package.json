@@ -40,7 +40,8 @@
     "jshint": "^2.5.5",
     "lasso": "^1.8.4",
     "lesshat": "^3.0.2",
-    "mocha": "^1.21.4"
+    "mocha": "^1.21.4",
+    "mockery": "^1.7.0"
   },
   "license": "Apache-2.0",
   "bin": {},

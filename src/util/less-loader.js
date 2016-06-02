@@ -8,8 +8,10 @@ var parser = require('./less-parser');
 var ok = require('assert').ok;
 var AsyncValue = require('raptor-async/AsyncValue');
 var extend = require('raptor-util/extend');
+var readURL = require('./readURL');
 
 var separatorChars = ['*', '-', '=', '~'];
+
 
 function separator(str, c) {
     var len = str.length - 5;
@@ -26,35 +28,82 @@ function Loader() {
 }
 
 Loader.prototype = {
-    loadLessFile: function(path, callback) {
+    parseLessCode: function(lessCode, path) {
+        var self = this;
+
+        var parsedLess = parser.parse(lessCode, path);
+
+        // Start pre-loading the imported Less files:
+        var parts = parsedLess.getParts();
+        for (var i=0, len=parts.length; i<len; i++) {
+            var part = parts[i];
+            if (part.isImport()) {
+                var importPath = part.getImportPath();
+                self.loadLessFile(importPath);
+            }
+        }
+
+        return parsedLess;
+    },
+
+    _loadLess: function(reader, path, shouldParse, callback) {
+        var self = this;
+
         var asyncValue = this.cache[path];
-        var _this = this;
 
         if (!asyncValue) {
             asyncValue = this.cache[path] = new AsyncValue();
-            fs.readFile(path, 'utf8', function(err, lessCode) {
-                var parsedLess = parser.parse(lessCode, path);
+
+            reader(function(err, lessCode) {
                 if (err) {
                     asyncValue.reject(err);
                     return;
                 }
 
-                // Start pre-loading the imported Less files:
-                var parts = parsedLess.getParts();
-                for (var i=0, len=parts.length; i<len; i++) {
-                    var part = parts[i];
-                    if (part.isImport()) {
-                        var importPath = part.getImportPath();
-                        _this.loadLessFile(importPath);
-                    }
-                }
-
+                var parsedLess = self.parseLessCode(lessCode, path, shouldParse);
                 asyncValue.resolve(parsedLess);
             });
         }
 
         if (callback) {
             asyncValue.done(callback);
+        }
+    },
+
+    loadLessFile: function(path, callback) {
+        this._loadLess(
+            function(callback) {
+                fs.readFile(path, {encoding: 'utf8'}, callback);
+            },
+            path,
+            true /* shouldParse */,
+            callback);
+    },
+
+    loadLessURL: function(url, callback) {
+        this._loadLess(
+            function(callback) {
+                readURL(url, callback);
+            },
+            url,
+            false /* shouldParse */,
+            callback);
+    },
+
+    loadLessCode: function(lessCode, callback) {
+        var parsedLess = this.parseLessCode(lessCode, '(code)', false /* don't actually parse it */);
+        callback(null, parsedLess);
+    },
+
+    loadLessDependency: function(dependency, callback) {
+        if (dependency.url) {
+            this.loadLessURL(dependency.url, callback);
+        } else if (dependency.path) {
+            this.loadLessFile(dependency.path, callback);
+        } else if (dependency.code) {
+            this.loadLessCode(dependency.code, callback);
+        } else {
+            callback(new Error('Invalid LESS dependency. "path", "url" or "code" is required'));
         }
     }
 };
@@ -88,7 +137,9 @@ exports.load = function(lessDependencies, context, callback) {
 
         var parts = parsedLess.getParts();
         var dirname = parsedLess.getDirname();
-        var relativePath = nodePath.relative(process.cwd(), parsedLess.getPath());
+        var relativePath = parsedLess.getPath().startsWith('http') ?
+            parsedLess.getPath() :
+            nodePath.relative(process.cwd(), parsedLess.getPath());
 
         // console.log('PROCESSING BEGIN: ', relativePath);
 
@@ -194,13 +245,17 @@ exports.load = function(lessDependencies, context, callback) {
     var work = lessDependencies.map(function(lessDependency) {
         return function(callback) {
             var path = lessDependency.path;
+            var url = lessDependency.url;
+            var key = path || url;
 
-            if (foundImports[path]) {
+            if (key && foundImports[key]) {
                 callback();
             } else {
-                foundImports[path] = true;
+                if (key) {
+                    foundImports[key] = true;
+                }
 
-                loader.loadLessFile(path, function(err, parsedLess) {
+                loader.loadLessDependency(lessDependency, function(err, parsedLess) {
                     if (err) {
                         return callback(err);
                     }

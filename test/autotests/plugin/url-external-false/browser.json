@@ -1,0 +1,10 @@
+{
+    "dependencies": [
+        "./style.less",
+        {
+            "type": "css",
+            "url": "http://foo/bar.css",
+            "external": false
+        }
+    ]
+}

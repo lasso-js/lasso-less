@@ -1,0 +1,6 @@
+{
+    "dependencies": [
+        "./style.less",
+        { "type": "less", "code": ".bar { color: pink; }" }
+    ]
+}

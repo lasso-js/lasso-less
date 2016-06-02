@@ -113,52 +113,54 @@ ParsedLess.prototype = {
 };
 
 module.exports = {
-    parse: function(code, path) {
+    parse: function(code, path, shouldParse) {
         var parsed = new ParsedLess(code, path);
 
-        var matches;
-        var inMultiLineComment = false;
-        var inSingleLineComment = false;
-        var inString = false;
+        if (shouldParse !== false) {
+            var matches;
+            var inMultiLineComment = false;
+            var inSingleLineComment = false;
+            var inString = false;
 
-        tokenizerRegExp.lastIndex = 0;
+            tokenizerRegExp.lastIndex = 0;
 
-        while((matches = tokenizerRegExp.exec(code)) != null) {
-            var importPath;
-            var url;
-            var match = matches[0];
+            while((matches = tokenizerRegExp.exec(code)) != null) {
+                var importPath;
+                var url;
+                var match = matches[0];
 
-            if (inSingleLineComment) {
-                if (match === '\n' || match === '\r') {
-                    inSingleLineComment = false;
+                if (inSingleLineComment) {
+                    if (match === '\n' || match === '\r') {
+                        inSingleLineComment = false;
+                    }
+                } else if (inMultiLineComment) {
+                    if (match === '*/') {
+                        inMultiLineComment = false;
+                    }
+                } else if (inString) {
+                    if (match === '"') {
+                        inString = false;
+                    }
+                } else if (match === '\\*') {
+                    inMultiLineComment = true;
+                } else if (match === '//') {
+                    inSingleLineComment = true;
+                }  else if (match === '"') {
+                    inString = true;
+                } else if ((importPath = matches[1]) || (importPath = matches[2])) {
+
+                    parsed._addPart(
+                        'import',
+                        importPath.trim(),
+                        matches.index,
+                        matches.index + match.length);
+                } else if ((url = (matches[3] || matches[4] || matches[5]))) {
+                    parsed._addPart(
+                        'url',
+                        url.trim(),
+                        matches.index + match.indexOf('(')+1,
+                        matches.index + match.lastIndexOf(')'));
                 }
-            } else if (inMultiLineComment) {
-                if (match === '*/') {
-                    inMultiLineComment = false;
-                }
-            } else if (inString) {
-                if (match === '"') {
-                    inString = false;
-                }
-            } else if (match === '\\*') {
-                inMultiLineComment = true;
-            } else if (match === '//') {
-                inSingleLineComment = true;
-            }  else if (match === '"') {
-                inString = true;
-            } else if ((importPath = matches[1]) || (importPath = matches[2])) {
-
-                parsed._addPart(
-                    'import',
-                    importPath.trim(),
-                    matches.index,
-                    matches.index + match.length);
-            } else if ((url = (matches[3] || matches[4] || matches[5]))) {
-                parsed._addPart(
-                    'url',
-                    url.trim(),
-                    matches.index + match.indexOf('(')+1,
-                    matches.index + match.lastIndexOf(')'));
             }
         }
 

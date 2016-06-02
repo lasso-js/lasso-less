@@ -1,6 +1,11 @@
 'use strict';
+var mockery = require('mockery');
 var nodePath = require('path');
 require('chai').config.includeStack = true;
+
+mockery.registerMock('./readURL', function(url, callback) {
+    callback(null, '.mock { /* ' + url + '*/ }');
+});
 
 var rmdirRecursive = require('./util').rmdirRecursive;
 var buildDir = nodePath.join(__dirname, 'build');
@@ -10,6 +15,17 @@ var lassoLessPlugin = require('../');
 var fs = require('fs');
 
 describe('lasso-less/plugin' , function() {
+    before(function() {
+        mockery.enable({
+            warnOnReplace: false,
+            warnOnUnregistered: false
+        });
+    });
+
+    after(function() {
+         mockery.disable();
+    });
+
     require('./autotest').scanDir(
         nodePath.join(__dirname, 'autotests/plugin'),
         function (dir, helpers, done) {
@@ -73,7 +89,14 @@ describe('lasso-less/plugin' , function() {
                     if (main.check) {
                         main.check(lassoPageResult, helpers);
                     } else {
-                        var css = fs.readFileSync(lassoPageResult.getCSSFiles()[0], { encoding: 'utf8' });
+                        var cssFile = lassoPageResult.getCSSFiles()[0];
+                        var css;
+                        if (cssFile) {
+                            css = fs.readFileSync(cssFile, { encoding: 'utf8' });
+                        } else {
+                            css = '';
+                        }
+
                         helpers.compare(css, '.css');
                     }
 

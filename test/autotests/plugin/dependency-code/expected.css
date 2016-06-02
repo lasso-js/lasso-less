@@ -1,0 +1,15 @@
+/************************************************************/
+/* BEGIN "test/autotests/plugin/dependency-code/style.less" */
+.foo {
+  color: red;
+}
+/* END   "test/autotests/plugin/dependency-code/style.less" */
+/************************************************************/
+/******************/
+/* BEGIN "(code)" */
+.bar {
+  color: pink;
+}
+/* END   "(code)" */
+/******************/
+

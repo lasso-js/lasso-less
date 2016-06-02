@@ -4,35 +4,54 @@ var logger = require('raptor-logging').logger(module);
 var loader = require('./util/less-loader');
 var unresolvedUrlResolver = require('./util/unresolved-url-resolver');
 var defaultUrlResolver = require('./util/default-url-resolver');
+var urlRegExp = /^(http:|https:)?\/\//;
 
 module.exports = function create(config, lasso) {
     var less = config.less;
 
     return {
         properties: {
-            path: 'string'
+            path: 'string',
+            url: 'string',
+            code: 'string',
+            external: 'boolean'
         },
 
         init: function(lassoContext, callback)  {
-            if (!this.path) {
-                return callback(new Error('"path" is required'));
+            var path = this.path;
+
+            if (urlRegExp.test(path)) {
+                this.url = path;
+                path = null;
+                delete this.path;
             }
 
-            this.path = this.resolvePath(this.path);
-
-            var _this = this;
-
-            this.on('addedToBundle', function(event) {
-                var bundle = event.bundle;
-                var bundleData = bundle.data;
-
-                var lessDependencies = bundleData.lessDependencies;
-                if (lessDependencies) {
-                    lessDependencies.push(_this);
-                } else {
-                    _this._lessDependencies = bundleData.lessDependencies = [_this];
+            if (this.url && this.external !== false) {
+                // This is an external CSS/Less file and we will
+                // just use the external URL and not merge in
+                // the code with the rest of the Less code
+            } else if (path || this.url || this.code) {
+                if (path) {
+                    this.path = this.resolvePath(path);
                 }
-            });
+
+
+                var self = this;
+
+                this.on('addedToBundle', function(event) {
+                    var bundle = event.bundle;
+                    var bundleData = bundle.data;
+
+                    var lessDependencies = bundleData.lessDependencies;
+                    if (lessDependencies) {
+                        lessDependencies.push(self);
+                    } else {
+                        self._lessDependencies = bundleData.lessDependencies = [self];
+                    }
+                });
+            } else {
+                return callback(new Error('"path" or "url" is required'));
+            }
 
             callback();
         },
@@ -139,7 +158,7 @@ module.exports = function create(config, lasso) {
         },
 
         calculateKey: function() {
-            return this.path;
+            return 'less:' + (this.path || this.url || this.code);
         },
 
         // Since we are resolving the resource URLs in the CSS files, we set a flag
@@ -149,6 +168,16 @@ module.exports = function create(config, lasso) {
 
         getUnbundledTarget: function() {
             return 'lasso-less';
+        },
+
+        isExternalResource: function() {
+            return this.url != null && this.external !== false;
+        },
+
+        getUrl: function() {
+            if (this.external !== false) {
+                return this.url;
+            }
         }
     };
 };

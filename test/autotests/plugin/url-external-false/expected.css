@@ -1,0 +1,15 @@
+/***************************************************************/
+/* BEGIN "test/autotests/plugin/url-external-false/style.less" */
+.foo {
+  color: red;
+}
+/* END   "test/autotests/plugin/url-external-false/style.less" */
+/***************************************************************/
+/******************************/
+/* BEGIN "http://foo/bar.css" */
+.mock {
+  /* http://foo/bar.css*/
+}
+/* END   "http://foo/bar.css" */
+/******************************/
+
