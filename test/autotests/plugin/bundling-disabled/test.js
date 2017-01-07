@@ -38,16 +38,6 @@ exports.check = function(lassoPageResult, helpers) {
     var outputFiles = lassoPageResult.getCSSFiles();
     expect(outputFiles.length).to.equal(2);
 
-    function readFile(basename) {
-        for (var i=0; i<outputFiles.length; i++) {
-            var file = outputFiles[i];
-            if (path.basename(file) === basename) {
-                return fs.readFileSync(file, { encoding: 'utf8' });
-            }
-        }
-        return `(not found: ${basename})`;
-    }
-
-    helpers.compare(readFile('lasso-less-bundling-disabled.css'), '-page.css');
-    helpers.compare(readFile('lasso-less-bundling-disabled-async.css'), '-async.css');
+    helpers.compare(fs.readFileSync(outputFiles[0], { encoding: 'utf8' }), '-async.css');
+    helpers.compare(fs.readFileSync(outputFiles[1], { encoding: 'utf8' }), '-page.css');
 };
