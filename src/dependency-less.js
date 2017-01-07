@@ -12,6 +12,7 @@ module.exports = function create(config, lasso) {
     return {
         properties: {
             path: 'string',
+            virtualPath: 'string',
             url: 'string',
             code: 'string',
             external: 'boolean'
@@ -20,7 +21,7 @@ module.exports = function create(config, lasso) {
         init: function(lassoContext, callback)  {
             var path = this.path;
 
-            if (urlRegExp.test(path)) {
+            if (path && urlRegExp.test(path)) {
                 this.url = path;
                 path = null;
                 delete this.path;
@@ -34,7 +35,6 @@ module.exports = function create(config, lasso) {
                 if (path) {
                     this.path = this.resolvePath(path);
                 }
-
 
                 var self = this;
 
@@ -57,7 +57,8 @@ module.exports = function create(config, lasso) {
         },
 
         getDir: function() {
-            return this.path ? nodePath.dirname(this.path) : undefined;
+            var path = this.path || this.virtualPath;
+            return path ? nodePath.dirname(path) : undefined;
         },
 
         read: function(lassoContext, callback) {
@@ -158,7 +159,7 @@ module.exports = function create(config, lasso) {
         },
 
         calculateKey: function() {
-            return 'less:' + (this.path || this.url || this.code);
+            return 'less:' + (this.path || this.virtualPath || this.url || this.code);
         },
 
         // Since we are resolving the resource URLs in the CSS files, we set a flag
