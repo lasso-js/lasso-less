@@ -57,6 +57,10 @@ module.exports = function create(config, lasso) {
         },
 
         getDir: function() {
+            if (this.dir) {
+                return this.dir;
+            }
+
             var path = this.path || this.virtualPath;
             return path ? nodePath.dirname(path) : undefined;
         },
@@ -159,7 +163,7 @@ module.exports = function create(config, lasso) {
         },
 
         calculateKey: function() {
-            return 'less:' + (this.path || this.virtualPath || this.url || this.code);
+            return 'less:' + (this.code || this.virtualPath || this.path || this.url);
         },
 
         // Since we are resolving the resource URLs in the CSS files, we set a flag
