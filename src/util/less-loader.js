@@ -98,10 +98,10 @@ Loader.prototype = {
     loadLessDependency: function(dependency, callback) {
         if (dependency.url) {
             this.loadLessURL(dependency.url, callback);
-        } else if (dependency.path) {
-            this.loadLessFile(dependency.path, callback);
         } else if (dependency.code) {
             this.loadLessCode(dependency.code, callback);
+        } else if (dependency.path) {
+            this.loadLessFile(dependency.path, callback);
         } else {
             callback(new Error('Invalid LESS dependency. "path", "url" or "code" is required'));
         }
