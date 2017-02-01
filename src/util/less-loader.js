@@ -46,7 +46,7 @@ Loader.prototype = {
         return parsedLess;
     },
 
-    _loadLess: function(reader, path, shouldParse, callback) {
+    _loadLess: function(reader, path, callback) {
         var self = this;
 
         var asyncValue = this.cache[path];
@@ -60,7 +60,7 @@ Loader.prototype = {
                     return;
                 }
 
-                var parsedLess = self.parseLessCode(lessCode, path, shouldParse);
+                var parsedLess = self.parseLessCode(lessCode, path);
                 asyncValue.resolve(parsedLess);
             });
         }
@@ -76,7 +76,6 @@ Loader.prototype = {
                 fs.readFile(path, {encoding: 'utf8'}, callback);
             },
             path,
-            true /* shouldParse */,
             callback);
     },
 
@@ -86,12 +85,11 @@ Loader.prototype = {
                 readURL(url, callback);
             },
             url,
-            false /* shouldParse */,
             callback);
     },
 
-    loadLessCode: function(lessCode, callback) {
-        var parsedLess = this.parseLessCode(lessCode, '(code)', false /* don't actually parse it */);
+    loadLessCode: function(lessCode, path, callback) {
+        var parsedLess = this.parseLessCode(lessCode, path || '(code)');
         callback(null, parsedLess);
     },
 
@@ -99,7 +97,7 @@ Loader.prototype = {
         if (dependency.url) {
             this.loadLessURL(dependency.url, callback);
         } else if (dependency.code) {
-            this.loadLessCode(dependency.code, callback);
+            this.loadLessCode(dependency.code, dependency.path, callback);
         } else if (dependency.path) {
             this.loadLessFile(dependency.path, callback);
         } else {
