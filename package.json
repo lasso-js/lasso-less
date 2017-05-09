@@ -38,7 +38,7 @@
   "devDependencies": {
     "chai": "^1.9.1",
     "jshint": "^2.5.5",
-    "lasso": "^1.8.4",
+    "lasso": "^2.11.10",
     "lesshat": "^3.0.2",
     "mocha": "^1.21.4",
     "mockery": "^1.7.0"
