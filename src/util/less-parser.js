@@ -141,7 +141,7 @@ module.exports = {
                     if (match === '"') {
                         inString = false;
                     }
-                } else if (match === '\\*') {
+                } else if (match === '/*') {
                     inMultiLineComment = true;
                 } else if (match === '//') {
                     inSingleLineComment = true;
