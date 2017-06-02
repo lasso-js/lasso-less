@@ -1,0 +1,12 @@
+/***************************************************************************/
+/* BEGIN "test/autotests/plugin/ignore-multi-line-comment-path/style.less" */
+.foo {
+  background-image: url('ebay-logo-d481eb85.png');
+}
+/*
+.bar {
+  background-image: url('random-unknown-image.png');
+}
+*/
+/* END   "test/autotests/plugin/ignore-multi-line-comment-path/style.less" */
+/***************************************************************************/
