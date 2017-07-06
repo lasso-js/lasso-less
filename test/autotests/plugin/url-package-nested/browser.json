@@ -1,0 +1,5 @@
+{
+    "dependencies": [
+        "./url-package.less"
+    ]
+}

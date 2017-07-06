@@ -1,6 +1,6 @@
 require('raptor-polyfill/string/startsWith');
 
-var raptorModulesUtil = require('raptor-modules/util');
+var lassoPackageRoot = require('lasso-package-root');
 var nodePath = require('path');
 var REQUIRE_PREFIX = 'require:';
 var resolveFrom = require('resolve-from');
@@ -19,7 +19,7 @@ module.exports = function urlResolver(url, context, callback) {
     var file = null;
 
     if (url.charAt(0) === '/' && url.charAt(1) !== '/') {
-        var rootDir = raptorModulesUtil.getProjectRootDir();
+        var rootDir = lassoPackageRoot.getRootDir(from);
         file = nodePath.join(rootDir, url);
     } else if (url.startsWith(REQUIRE_PREFIX)) {
         var requirePath = url.substring(REQUIRE_PREFIX.length).trim();
