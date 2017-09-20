@@ -50,10 +50,15 @@ module.exports = function create(config, lasso) {
                     }
                 });
             } else {
-                return callback(new Error('"path" or "url" is required'));
+                var error = new Error('"path" or "url" is required');
+                if (callback) {
+                    return callback(error);
+                } else {
+                    throw error;
+                }
             }
 
-            callback();
+            if (callback) callback();
         },
 
         getDir: function() {

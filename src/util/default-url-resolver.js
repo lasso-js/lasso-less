@@ -47,7 +47,7 @@ module.exports = function urlResolver(url, context, callback) {
     assert.ok(lasso, '"lasso" expected');
     var lassoContext = context.lassoContext;
 
-    lasso.lassoResource(file, {lassoContext: lassoContext}, function(err, lassoedResource) {
+    function onDone (err, lassoedResource) {
         if (err) {
             return callback(err);
         }
@@ -57,5 +57,17 @@ module.exports = function urlResolver(url, context, callback) {
         } else {
             callback(new Error('Invalid result for file "' + file + '"'));
         }
-    });
+    }
+
+    var lassoResourceResult = lasso.lassoResource(file, {lassoContext: lassoContext}, onDone);
+
+    if (lassoResourceResult && lassoResourceResult.then) {
+        lassoResourceResult
+            .then(function (lassoResource) {
+                onDone(null, lassoResource);
+            })
+            .catch(function (err) {
+                onDone(err);
+            });
+    }
 };
