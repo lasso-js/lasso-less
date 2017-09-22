@@ -3,7 +3,7 @@
 
     ],
     "node" : true,
-    "es5" : false,
+    "esversion": 6,
     "browser" : true,
     "boss" : false,
     "curly": false,
