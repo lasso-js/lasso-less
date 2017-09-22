@@ -100,7 +100,9 @@ describe('lasso-less/plugin' , function() {
                         helpers.compare(css, '.css');
                     }
 
-                    lasso.flushAllCaches(done);
+                    const result = lasso.flushAllCaches(done);
+
+                    if (result) result.then(done);
                 })
                 .catch((err) => {
                     if (checkError) {

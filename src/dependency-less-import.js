@@ -8,11 +8,15 @@ module.exports = function create(config, lasso) {
 
         init: function(lassoContext, callback)  {
             if (!this.path) {
-                return callback(new Error('"path" is required'));
+                var error = new Error('"path" is required');
+
+                if (callback) return callback(error);
+                throw error;
             }
 
             this.path = this.resolvePath(this.path);
-            callback();
+
+            if (callback) callback();
         },
 
         getDir: function() {
@@ -28,7 +32,7 @@ module.exports = function create(config, lasso) {
                 data.lessImportDependencies = [this];
             }
 
-            callback();
+            if (callback) callback();
         },
 
         calculateKey: function() {
