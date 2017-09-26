@@ -8,6 +8,102 @@ var unresolvedUrlResolver = require('./util/unresolved-url-resolver');
 var defaultUrlResolver = require('./util/default-url-resolver');
 var urlRegExp = /^(http:|https:)?\/\//;
 
+function doRead (plugin, lassoContext, less, config, callback) {
+    var lessDependencies = plugin._lessDependencies;
+
+    if (!lessDependencies) {
+        return callback(null, null);
+    }
+
+    var lessImportDependencies = lassoContext.data.lessImportDependencies;
+    if (lessImportDependencies) {
+        lessDependencies = lessImportDependencies.concat(lessDependencies);
+    }
+
+    var urlResolver = config.urlResolver || defaultUrlResolver;
+
+    var context = {
+        lassoContext: lassoContext,
+        pluginConfig: config,
+        urlResolver: urlResolver,
+        lasso: lassoContext.lasso,
+        defaultUrlResolver: defaultUrlResolver
+    };
+
+    var completed = false;
+
+    function errorCallback(err){
+        // logger.error(err);
+
+        if (completed) {
+            return;
+        }
+        completed = true;
+        callback(err);
+    }
+
+    loader.load(lessDependencies, context, function(err, result) {
+        if (err) {
+            return callback(err);
+        }
+
+        var lessCode = result.lessCode;
+
+        function renderCallback(err, output) {
+            if (err) {
+                if (err.line !== null &&  err.column !== null) {
+                    var errorIndex = err.index;
+                    var errorMessage = '\n' + err.message;
+                    var lines = lessCode.split('\n');
+                    var badLine = lines[err.line - 1];
+
+                    errorMessage += ':\n' + badLine + '\n'+ new Array(err.column+1).join(" ") + '^';
+
+                    var wrappedError = new Error(errorMessage);
+                    wrappedError.index = errorIndex;
+                    wrappedError.src = lessCode;
+                    wrappedError.code = 'LESS_SYNTAX_ERROR';
+                    err = wrappedError;
+                }
+                errorCallback(err);
+                return;
+            }
+
+            if (completed) {
+                return;
+            }
+
+            completed = true;
+
+            logger.info('Finished rendering Less dependencies.');
+
+            // LESS v2+ returns an object with "css" property.
+            // Old versions returned just the CSS.
+            var css = (output.css === null) ? output : output.css;
+
+            if (result.hasUnresolvedUrls) {
+                // One more pass to resolve dynamic URLs
+                unresolvedUrlResolver.resolveUrls(css, context, callback);
+            } else {
+                callback(null, css);
+            }
+        }
+
+        var parseConfig = {
+            filename: 'lasso.less',
+            paths: [process.cwd()]
+        };
+        if (config.lessConfig) {
+            extend(parseConfig, config.lessConfig);
+        }
+
+        less.render(
+            lessCode,
+            parseConfig,
+            renderCallback);
+    });
+}
+
 module.exports = function create(config, lasso) {
     var less = config.less;
 
@@ -73,105 +169,17 @@ module.exports = function create(config, lasso) {
         },
 
         read: function(lassoContext, callback) {
-            return new Promise((resolve, reject) => {
-                callback = callback || function (err, res) {
-                    return err ? reject(err) : resolve(res);
-                };
-
-                var lessDependencies = this._lessDependencies;
-
-                if (!lessDependencies) {
-                    return callback(null, null);
-                }
-
-                var lessImportDependencies = lassoContext.data.lessImportDependencies;
-                if (lessImportDependencies) {
-                    lessDependencies = lessImportDependencies.concat(lessDependencies);
-                }
-
-                var urlResolver = config.urlResolver || defaultUrlResolver;
-
-                var context = {
-                    lassoContext: lassoContext,
-                    pluginConfig: config,
-                    urlResolver: urlResolver,
-                    lasso: lassoContext.lasso,
-                    defaultUrlResolver: defaultUrlResolver
-                };
-
-                var completed = false;
-
-                function errorCallback(err){
-                    // logger.error(err);
-
-                    if (completed) {
-                        return;
-                    }
-                    completed = true;
-                    callback(err);
-                }
-
-                loader.load(lessDependencies, context, function(err, result) {
-                    if (err) {
-                        return callback(err);
-                    }
-
-                    var lessCode = result.lessCode;
-
-                    function renderCallback(err, output) {
-                        if (err) {
-                            if (err.line !== null &&  err.column !== null) {
-                                var errorIndex = err.index;
-                                var errorMessage = '\n' + err.message;
-                                var lines = lessCode.split('\n');
-                                var badLine = lines[err.line - 1];
-
-                                errorMessage += ':\n' + badLine + '\n'+ new Array(err.column+1).join(" ") + '^';
-
-                                var wrappedError = new Error(errorMessage);
-                                wrappedError.index = errorIndex;
-                                wrappedError.src = lessCode;
-                                wrappedError.code = 'LESS_SYNTAX_ERROR';
-                                err = wrappedError;
-                            }
-                            errorCallback(err);
-                            return;
-                        }
-
-                        if (completed) {
-                            return;
-                        }
-
-                        completed = true;
-
-                        logger.info('Finished rendering Less dependencies.');
-
-                        // LESS v2+ returns an object with "css" property.
-                        // Old versions returned just the CSS.
-                        var css = (output.css === null) ? output : output.css;
-
-                        if (result.hasUnresolvedUrls) {
-                            // One more pass to resolve dynamic URLs
-                            unresolvedUrlResolver.resolveUrls(css, context, callback);
-                        } else {
-                            callback(null, css);
-                        }
-                    }
-
-                    var parseConfig = {
-                        filename: 'lasso.less',
-                        paths: [process.cwd()]
+            if (callback) {
+                return doRead(this, lassoContext, less, config, callback);
+            } else {
+                return new Promise((resolve, reject) => {
+                    callback = function (err, res) {
+                        return err ? reject(err) : resolve(res);
                     };
-                    if (config.lessConfig) {
-                        extend(parseConfig, config.lessConfig);
-                    }
 
-                    less.render(
-                        lessCode,
-                        parseConfig,
-                        renderCallback);
+                    return doRead(this, lassoContext, less, config, callback);
                 });
-            });
+            }
         },
 
         calculateKey: function() {
