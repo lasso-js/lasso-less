@@ -9,7 +9,8 @@ exports.getLassoConfig = function(lassoLessPlugin) {
                 plugin: lassoLessPlugin,
                 config: {
                     lessConfig: {
-                        strictMath: true
+                        strictMath: true,
+                        javascriptEnabled: true
                     }
                 }
             }

@@ -1,6 +1,6 @@
 {
     "dependencies": [
-        "less-import: lesshat/build/lesshat.less",
+        "less-import: lesshat/lesshat.less",
         "./style.less"
     ]
 }
