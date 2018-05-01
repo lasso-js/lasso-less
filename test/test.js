@@ -83,7 +83,7 @@ describe('lasso-less/plugin' , function() {
             myLasso.lassoPage(lassoOptions)
                 .then((lassoPageResult) => {
                     if (checkError) {
-                        return done('Error expected');
+                        return done(new Error('Error expected'));
                     }
 
                     if (main.check) {
@@ -102,7 +102,7 @@ describe('lasso-less/plugin' , function() {
 
                     const result = lasso.flushAllCaches(done);
 
-                    if (result) result.then(done);
+                    if (result) result.then(done, done);
                 })
                 .catch((err) => {
                     if (checkError) {
