@@ -1,6 +1,6 @@
 var tokenizerRegExp = /\@import\s+(?:"((?:\\"|[^"])*)"|'((?:\\'|[^'])*)')\s*;|url\(\s*"((?:\\"|[^"])*)"\s*\)|url\(\s*'((?:\\'|[^'])*)'\s*\)|url\(([^\)]*)\)|\/\*|\*\/|\/\/|\n|\r|\\\\|\\"|"/g;
 var nodePath = require('path');
-var requireRegExp = /^require\s*:\s*(.+)$/;
+var requireRegExp = /^(?:require\s*:\s*|~)(.+)$/;
 var resolveFrom = require('resolve-from');
 
 function encodeSpecialURLChar(c) {
