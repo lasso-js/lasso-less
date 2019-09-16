@@ -1,0 +1,33 @@
+/*********************************************************************/
+/* BEGIN "test/autotests/plugin/import-require-alias/variables.less" */
+/* END   "test/autotests/plugin/import-require-alias/variables.less" */
+/*********************************************************************/
+/****************************************************************/
+/* BEGIN "test/autotests/plugin/import-require-alias/main.less" */
+/* @import "~installed/mixins.less"; */
+/*-----------------------------------------------------------------------------------------*/
+/* + BEGIN "test/autotests/plugin/import-require-alias/node_modules/installed/mixins.less" */
+.bordered {
+  border-top: dotted 1px purple;
+  border-bottom: solid 2px purple;
+}
+/* + END   "test/autotests/plugin/import-require-alias/node_modules/installed/mixins.less" */
+/*-----------------------------------------------------------------------------------------*/
+.main {
+  color: red;
+  border-top: dotted 1px purple;
+  border-bottom: solid 2px purple;
+}
+/* END   "test/autotests/plugin/import-require-alias/main.less" */
+/****************************************************************/
+/*******************************************************************/
+/* BEGIN "test/autotests/plugin/import-require-alias/baz/baz.less" */
+/* @import "~installed/mixins.less"; (skipped, already imported) */
+.baz {
+  color: blue;
+  border-top: dotted 1px purple;
+  border-bottom: solid 2px purple;
+}
+/* END   "test/autotests/plugin/import-require-alias/baz/baz.less" */
+/*******************************************************************/
+

@@ -106,7 +106,7 @@ You can use `@import` (e.g., `@import "foo.less";`) inside a Less file to import
 }
 ```
 
-The `lasso-less` plugin also supports resolving Less files using the Node.js module resolver. If you need to include a Less file found in an installed module then you can prefix an import with `require:`. For example, given the following directory structure:
+The `lasso-less` plugin also supports resolving Less files using the Node.js module resolver. If you need to include a Less file found in an installed module then you can prefix an import with `require:` or `~`. For example, given the following directory structure:
 
 ```
 ./
@@ -121,6 +121,8 @@ _using `@import`:_
 
 ```css
 @import "require: my-module/foo.less";
+// or
+@import "~my-module/foo.less";
 ```
 
 _using `browser.json`:_
