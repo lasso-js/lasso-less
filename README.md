@@ -230,6 +230,7 @@ require('lasso').configure({
             plugin: 'lasso-less',
             config: {
                 extensions: ['less', 'css'],
+		outputLessBundle: true,
                 lessConfig: { // P
                     strictMath: true,
                     strictUnits: true
@@ -244,3 +245,5 @@ require('lasso').configure({
 
 - ___lessConfig___ - Passthrough config options to the Less render (object)
 - ___extensions___ - An array of file extensions to process as Less files (array, defaults to `['less']`)
+- ___outputLessBundle___ - Output the intermediate `.less` bundle (boolean)
+
