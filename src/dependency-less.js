@@ -99,9 +99,11 @@ function doRead (plugin, lassoContext, less, config, callback) {
         }
 
         if (config.outputLessBundle) {
-            fs.writeFile(nodePath.join(lassoContext.config.outputDir, parseConfig.filename), lessCode, funtion(err) {
-                errorCallback(err);
-                return;
+            fs.writeFile(nodePath.join(lassoContext.config.outputDir, parseConfig.filename), lessCode, function(err) {
+                if (err) {
+                    errorCallback(err);
+                    return;
+                }
             });
         }
 
