@@ -1,7 +1,6 @@
 var tokenizerRegExp = /\@import\s+(?:"((?:\\"|[^"])*)"|'((?:\\'|[^'])*)')\s*;|url\(\s*"((?:\\"|[^"])*)"\s*\)|url\(\s*'((?:\\'|[^'])*)'\s*\)|url\(([^\)]*)\)|\/\*|\*\/|\/\/|\n|\r|\\\\|\\"|"/g;
 var nodePath = require('path');
-var requireRegExp = /^(?:require\s*:\s*|~)(.+)$/;
-var resolveFrom = require('resolve-from');
+var requireRegExp = /^(?:require\s*:\s*|~)(.+?)\s*$/;
 
 function encodeSpecialURLChar(c) {
     if (c === "'") {
@@ -11,7 +10,7 @@ function encodeSpecialURLChar(c) {
     }
 }
 
-function Part(parsedLess, type, text, start, end) {
+function Part(parsedLess, type, text, start, end, context) {
     this.parsedLess = parsedLess;
     this.type = type;
     this.text = text;
@@ -20,6 +19,7 @@ function Part(parsedLess, type, text, start, end) {
     this.replacement = null;
 
     this.importPath = null;
+    this.context = context;
 }
 
 Part.prototype = {
@@ -44,8 +44,8 @@ Part.prototype = {
             var requireMatches = requireRegExp.exec(importPath);
 
             if (requireMatches){
-                importPath = requireMatches[1].trim();
-                importPath = resolveFrom(dirname, importPath);
+                importPath = requireMatches[1];
+                importPath = this.context.lassoContext.dependency.resolvePath(importPath, dirname);
             } else {
                 importPath = nodePath.resolve(dirname, importPath);
             }
@@ -73,9 +73,9 @@ function ParsedLess(originalCode, path) {
 }
 
 ParsedLess.prototype = {
-    _addPart: function(type, text, start, end) {
+    _addPart: function(type, text, start, end, context) {
         this.pendingCount++;
-        this.parts.push(new Part(this, type, text, start, end));
+        this.parts.push(new Part(this, type, text, start, end, context));
     },
 
     getParts: function() {
@@ -113,54 +113,52 @@ ParsedLess.prototype = {
 };
 
 module.exports = {
-    parse: function(code, path, shouldParse) {
+    parse: function(code, path, context) {
         var parsed = new ParsedLess(code, path);
+        var matches;
+        var inMultiLineComment = false;
+        var inSingleLineComment = false;
+        var inString = false;
 
-        if (shouldParse !== false) {
-            var matches;
-            var inMultiLineComment = false;
-            var inSingleLineComment = false;
-            var inString = false;
+        tokenizerRegExp.lastIndex = 0;
 
-            tokenizerRegExp.lastIndex = 0;
+        while((matches = tokenizerRegExp.exec(code)) != null) {
+            var importPath;
+            var url;
+            var match = matches[0];
 
-            while((matches = tokenizerRegExp.exec(code)) != null) {
-                var importPath;
-                var url;
-                var match = matches[0];
-
-                if (inSingleLineComment) {
-                    if (match === '\n' || match === '\r') {
-                        inSingleLineComment = false;
-                    }
-                } else if (inMultiLineComment) {
-                    if (match === '*/') {
-                        inMultiLineComment = false;
-                    }
-                } else if (inString) {
-                    if (match === '"') {
-                        inString = false;
-                    }
-                } else if (match === '/*') {
-                    inMultiLineComment = true;
-                } else if (match === '//') {
-                    inSingleLineComment = true;
-                }  else if (match === '"') {
-                    inString = true;
-                } else if ((importPath = matches[1]) || (importPath = matches[2])) {
-
-                    parsed._addPart(
-                        'import',
-                        importPath.trim(),
-                        matches.index,
-                        matches.index + match.length);
-                } else if ((url = (matches[3] || matches[4] || matches[5]))) {
-                    parsed._addPart(
-                        'url',
-                        url.trim(),
-                        matches.index + match.indexOf('(')+1,
-                        matches.index + match.lastIndexOf(')'));
+            if (inSingleLineComment) {
+                if (match === '\n' || match === '\r') {
+                    inSingleLineComment = false;
                 }
+            } else if (inMultiLineComment) {
+                if (match === '*/') {
+                    inMultiLineComment = false;
+                }
+            } else if (inString) {
+                if (match === '"') {
+                    inString = false;
+                }
+            } else if (match === '/*') {
+                inMultiLineComment = true;
+            } else if (match === '//') {
+                inSingleLineComment = true;
+            }  else if (match === '"') {
+                inString = true;
+            } else if ((importPath = matches[1]) || (importPath = matches[2])) {
+
+                parsed._addPart(
+                    'import',
+                    importPath.trim(),
+                    matches.index,
+                    matches.index + match.length,
+                    context);
+            } else if ((url = (matches[3] || matches[4] || matches[5]))) {
+                parsed._addPart(
+                    'url',
+                    url.trim(),
+                    matches.index + match.indexOf('(')+1,
+                    matches.index + match.lastIndexOf(')'));
             }
         }
 

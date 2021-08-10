@@ -23,7 +23,8 @@ function separator(str, c) {
     return '/*' + result + '*/\n';
 }
 
-function Loader() {
+function Loader(context) {
+    this.context = context;
     this.cache = {};
 }
 
@@ -31,7 +32,7 @@ Loader.prototype = {
     parseLessCode: function(lessCode, path) {
         var self = this;
 
-        var parsedLess = parser.parse(lessCode, path);
+        var parsedLess = parser.parse(lessCode, path, this.context);
 
         // Start pre-loading the imported Less files:
         var parts = parsedLess.getParts();
@@ -124,7 +125,7 @@ exports.load = function(lessDependencies, context, callback) {
     var lasso = lassoContext.lasso;
     ok(lasso, '"lasso" expected');
 
-    var loader = new Loader();
+    var loader = new Loader(context);
 
     var output = [];
 
