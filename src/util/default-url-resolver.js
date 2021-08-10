@@ -2,8 +2,7 @@ require('raptor-polyfill/string/startsWith');
 
 var lassoPackageRoot = require('lasso-package-root');
 var nodePath = require('path');
-var REQUIRE_PREFIX = 'require:';
-var resolveFrom = require('resolve-from');
+var REQUIRE_PREFIX = /^(?:require\s*:\s*|~)([^?]+?)(\?.*?)\s*$/;
 var assert = require('assert');
 var absoluteUrlRegExp = /^((http:|https:)?\/\/)|data:/;
 
@@ -17,27 +16,13 @@ module.exports = function urlResolver(url, context, callback) {
     assert(from != null, '"dir" expected');
 
     var file = null;
+    var prefixMatch = null;
 
-    if (url.charAt(0) === '/' && url.charAt(1) !== '/') {
+    if (url.charAt(0) === '/') {
         var rootDir = lassoPackageRoot.getRootDir(from);
         file = nodePath.join(rootDir, url);
-    } else if (url.startsWith(REQUIRE_PREFIX)) {
-        var requirePath = url.substring(REQUIRE_PREFIX.length).trim();
-
-        var query;
-        var pos = requirePath.indexOf('?');
-        if (pos !== -1) {
-            query = requirePath.substring(pos + 1);
-            requirePath = requirePath = requirePath.substring(0, pos);
-        }
-
-        requirePath = resolveFrom(from, requirePath);
-
-        if (query) {
-            requirePath += '?' + query;
-        }
-
-        file = requirePath;
+    } else if ((prefixMatch = REQUIRE_PREFIX.exec(url))) {
+        file = context.lassoContext.dependency.resolvePath(prefixMatch[1]) + (prefixMatch[2] || "");
     } else {
         // Relative path such as "./foo.png" or "foo.png"
         file = nodePath.resolve(from, url);
