@@ -26,7 +26,7 @@
     "Mahdi Pedramrazi <pedramphp@gmail.com>"
   ],
   "dependencies": {
-    "async": "^2.6.0",
+    "async": "^3.2.2",
     "lasso-package-root": "^1.0.1",
     "less": "^4.1.1",
     "raptor-async": "^1.1.3",
