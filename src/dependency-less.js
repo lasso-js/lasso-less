@@ -55,9 +55,9 @@ function doRead (plugin, lassoContext, less, config, callback) {
                     var errorIndex = err.index;
                     var errorMessage = '\n' + err.message;
                     var lines = lessCode.split('\n');
-                    var badLine = lines[err.line - 1];
+                    var badLines = lines.slice(err.line - 4, err.line + 2);
 
-                    errorMessage += ':\n' + badLine + '\n'+ new Array(err.column+1).join(" ") + '^';
+                    errorMessage += ':\n' + badLines.join("\n") + '\n'+ new Array(err.column+1).join(" ") + '^';
 
                     var wrappedError = new Error(errorMessage);
                     wrappedError.index = errorIndex;
