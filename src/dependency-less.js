@@ -2,6 +2,7 @@
 
 var extend = require('raptor-util/extend');
 var nodePath = require('path');
+var fs = require('fs');
 var logger = require('raptor-logging').logger(module);
 var loader = require('./util/less-loader');
 var unresolvedUrlResolver = require('./util/unresolved-url-resolver');
@@ -95,6 +96,15 @@ function doRead (plugin, lassoContext, less, config, callback) {
         };
         if (config.lessConfig) {
             extend(parseConfig, config.lessConfig);
+        }
+
+        if (config.outputLessBundle) {
+            fs.writeFile(nodePath.join(lassoContext.config.outputDir, parseConfig.filename), lessCode, function(err) {
+                if (err) {
+                    errorCallback(err);
+                    return;
+                }
+            });
         }
 
         less.render(
